@@ -1,15 +1,16 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, ScrollView, useColorScheme } from 'react-native';
 
 import EditScreenInfo from '@/components/EditScreenInfo';
 import { Text, View } from '@/components/Themed';
+import Colors from '@/constants/Colors';
 
 export default function TabOneScreen() {
+  const theme = useColorScheme() ?? 'dark'
+
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Tab One</Text>
-      <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
-      <EditScreenInfo path="app/(tabs)/index.tsx" />
-    </View>
+    <ScrollView>
+      <View style={styles.separator} />
+    </ScrollView>
   );
 }
 
