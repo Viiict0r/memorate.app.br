@@ -1,15 +1,17 @@
-import FontAwesome from '@expo/vector-icons/FontAwesome';
-import { Feather } from '@expo/vector-icons';
-import { DarkTheme as DefaultDarkTheme, DefaultTheme as DefaultLightTheme, ThemeProvider } from '@react-navigation/native';
+import { Feather, Octicons } from '@expo/vector-icons';
+import {
+  DarkTheme as DefaultDarkTheme,
+  DefaultTheme as DefaultLightTheme,
+  ThemeProvider,
+} from '@react-navigation/native';
 import { useFonts } from 'expo-font';
 import { Stack } from 'expo-router';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import { useColorScheme } from '@/components/useColorScheme';
 import Colors from '@/constants/Colors';
-import { StatusBar } from 'expo-status-bar';
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -26,9 +28,13 @@ SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
   const [loaded, error] = useFonts({
-    SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
-    ...FontAwesome.font,
-    ...Feather.font
+    PoppinsRegular: require('../assets/fonts/Poppins-Regular.ttf'),
+    PoppinsMedium: require('../assets/fonts/Poppins-Medium.ttf'),
+    PoppinsSemiBold: require('../assets/fonts/Poppins-SemiBold.ttf'),
+    PoppinsBold: require('../assets/fonts/Poppins-Bold.ttf'),
+    PoppinsLight: require('../assets/fonts/Poppins-Light.ttf'),
+    ...Octicons.font,
+    ...Feather.font,
   });
 
   // Expo Router uses Error Boundaries to catch errors in the navigation tree.
@@ -55,8 +61,8 @@ const DarkTheme = {
     ...DefaultDarkTheme.colors,
     background: Colors.dark.background,
     text: Colors.dark.text,
-  }
-}
+  },
+};
 
 const LightTheme = {
   ...DefaultLightTheme,
@@ -64,8 +70,8 @@ const LightTheme = {
     ...DefaultLightTheme.colors,
     background: Colors.light.background,
     text: Colors.light.text,
-  }
-}
+  },
+};
 
 function RootLayoutNav() {
   const colorScheme = useColorScheme();
@@ -75,7 +81,13 @@ function RootLayoutNav() {
       <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : LightTheme}>
         <Stack>
           <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-          <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
+          <Stack.Screen
+            name="modal"
+            options={{
+              presentation: 'modal',
+              headerShown: false,
+            }}
+          />
         </Stack>
       </ThemeProvider>
     </SafeAreaProvider>
