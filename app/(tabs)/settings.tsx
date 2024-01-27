@@ -1,7 +1,7 @@
 import { StyleSheet, useColorScheme } from 'react-native';
 
-import EditScreenInfo from '@/components/EditScreenInfo';
-import { Text, View } from '@/components/Themed';
+import { TextBold } from '@/components/StyledText';
+import { View } from '@/components/Themed';
 import Colors from '@/constants/Colors';
 
 export default function TabTwoScreen() {
@@ -13,9 +13,7 @@ export default function TabTwoScreen() {
         ...styles.container,
         backgroundColor: Colors[theme].background,
       }}>
-      <Text style={styles.title}>Tab Two</Text>
-      {/* <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" /> */}
-      <EditScreenInfo path="app/(tabs)/two.tsx" />
+      <TextBold>teste</TextBold>
     </View>
   );
 }
