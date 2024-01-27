@@ -1,7 +1,7 @@
 import { StyleSheet, useColorScheme } from 'react-native';
 
-import { TextBold } from '@/components/StyledText';
-import { View } from '@/components/Themed';
+import { TextBold } from '@/components/styled-text';
+import { View } from '@/components/themed';
 import Colors from '@/constants/Colors';
 
 export default function TabTwoScreen() {

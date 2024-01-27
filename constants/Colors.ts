@@ -15,6 +15,10 @@ export default {
       border: 'rgba(25, 25, 25, 0.20)',
       background: 'rgba(255, 255, 255, 0.10)',
     },
+    avatar_placeholder: {
+      border: 'rgba(35, 35, 35, 0.30)',
+      background: 'rgba(35, 35, 35, 0.15)',
+    },
   },
   dark: {
     text: lighter,
@@ -24,6 +28,10 @@ export default {
       inactive_icon: 'rgba(255, 255, 255, 0.6)',
       border: 'rgba(255, 255, 255, 0.20)',
       background: 'rgba(25, 25, 25, 0.50)',
+    },
+    avatar_placeholder: {
+      border: 'rgba(255, 255, 255, 0.30)',
+      background: 'rgba(255, 255, 255, 0.15)',
     },
   },
 };

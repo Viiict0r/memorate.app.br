@@ -1,23 +1,31 @@
 import { Pressable, StyleSheet, View, useColorScheme } from 'react-native';
 
-import { TextBold, TextMedium, TextRegular } from '../StyledText';
+import { Avatar } from './avatar';
+import { TextBold, TextMedium, TextRegular } from '../styled-text';
 
 import Colors from '@/constants/Colors';
 
-export const PersonCard = () => {
+type Props = {
+  showBirthdayDate?: boolean;
+  avatar: boolean;
+};
+
+export const PersonCard = ({ avatar, showBirthdayDate = false }: Props) => {
   const theme = useColorScheme() ?? 'dark';
 
   return (
     <Pressable>
       {({ pressed }) => (
         <View style={[styles.container, { opacity: pressed ? 0.8 : 1 }]}>
-          <View style={styles.date}>
-            <TextMedium size={14}>25</TextMedium>
-            <TextBold size={12} style={{ color: Colors[theme].text_gray }}>
-              JUL
-            </TextBold>
-          </View>
-          <View style={styles.avatar} />
+          {showBirthdayDate && (
+            <View style={styles.date}>
+              <TextMedium size={14}>25</TextMedium>
+              <TextBold size={12} style={{ color: Colors[theme].text_gray }}>
+                JUL
+              </TextBold>
+            </View>
+          )}
+          <Avatar src={avatar} />
           <View style={styles.name}>
             <TextRegular size={14}>Leticia</TextRegular>
             <TextRegular size={12} style={{ color: Colors[theme].text_gray }}>
@@ -45,12 +53,6 @@ const styles = StyleSheet.create({
   date: {
     flexDirection: 'column',
     alignItems: 'center',
-  },
-  avatar: {
-    height: 50,
-    width: 50,
-    borderRadius: 50,
-    backgroundColor: 'gray',
   },
   name: {
     flexDirection: 'column',

@@ -1,28 +1,16 @@
-import {
-  Image,
-  ImageProps,
-  ScrollView,
-  StyleSheet,
-  useColorScheme,
-} from 'react-native';
+import { Image, ImageProps, ScrollView, StyleSheet, useColorScheme } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import { TextBold, TextMedium, TextRegular } from '@/components/StyledText';
-import { View } from '@/components/Themed';
 import { PersonCard } from '@/components/person-card';
+import { TextMedium } from '@/components/styled-text';
+import { View } from '@/components/themed';
 
 const logo = {
   light: (props: ImageProps) => (
-    <Image
-      {...props}
-      source={require(`../../assets/images/memorate-logo-dark.png`)}
-    />
+    <Image {...props} source={require(`../../assets/images/memorate-logo-dark.png`)} />
   ),
   dark: (props: ImageProps) => (
-    <Image
-      {...props}
-      source={require(`../../assets/images/memorate-logo-light.png`)}
-    />
+    <Image {...props} source={require(`../../assets/images/memorate-logo-light.png`)} />
   ),
 };
 
@@ -46,17 +34,17 @@ export default function TabOneScreen() {
           Recentes
         </TextMedium>
         <View style={styles.grid}>
-          <PersonCard />
-          <PersonCard />
-          <PersonCard />
+          <PersonCard avatar />
+          <PersonCard avatar={false} />
+          <PersonCard avatar />
         </View>
         <TextMedium size={18} style={styles.title}>
           Próximos
         </TextMedium>
         <View style={styles.grid}>
-          <PersonCard />
-          <PersonCard />
-          <PersonCard />
+          <PersonCard showBirthdayDate avatar={false} />
+          <PersonCard showBirthdayDate avatar />
+          <PersonCard showBirthdayDate avatar />
         </View>
       </View>
     </ScrollView>

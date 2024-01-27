@@ -1,7 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import { Platform, StyleSheet, View } from 'react-native';
 
-import { TextBold } from '@/components/StyledText';
+import { TextBold } from '@/components/styled-text';
 
 export default function ModalScreen() {
   return (
