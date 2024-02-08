@@ -9,16 +9,23 @@ const test_url =
 
 type Props = {
   src?: boolean; // TODO: Change to string and receive profile url
+  size?: number;
 };
 
-export const Avatar = ({ src }: Props) => {
+export const Avatar = ({ src, size = 50 }: Props) => {
   const theme = useColorScheme() ?? 'light';
 
   const styles = AvatarStyles(theme);
 
   return src ? (
     <Image
-      style={styles.avatar}
+      style={[
+        {
+          width: size,
+          height: size,
+        },
+        styles.avatar,
+      ]}
       source={{
         uri: test_url,
       }}
@@ -39,9 +46,9 @@ export const Avatar = ({ src }: Props) => {
 const AvatarStyles = (theme: 'dark' | 'light') =>
   StyleSheet.create({
     avatar: {
-      height: 50,
-      width: 50,
       borderRadius: 50,
+      borderWidth: 2,
+      borderColor: '#fff',
     },
     placeholder: {
       height: 50,
