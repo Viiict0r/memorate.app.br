@@ -14,6 +14,7 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { useColorScheme } from '@/components/useColorScheme';
 import Colors from '@/constants/Colors';
 import { PersonProvider } from '@/hooks/usePerson';
+import { makeAnonymousLogin } from '@/lib/firebase';
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -46,7 +47,10 @@ export default function RootLayout() {
 
   useEffect(() => {
     if (loaded) {
-      SplashScreen.hideAsync();
+      makeAnonymousLogin().then(() => {
+        SplashScreen.hideAsync();
+        console.log('login efetuado');
+      });
     }
   }, [loaded]);
 
