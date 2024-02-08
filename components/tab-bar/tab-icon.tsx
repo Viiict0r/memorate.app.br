@@ -15,13 +15,7 @@ export const TabBarIcon = ({ icon, isActive }: Props) => {
 
   if (!isActive) {
     /** Return normal icon */
-    return (
-      <Octicons
-        name={icon}
-        size={24}
-        color={Colors[theme].tabbar.inactive_icon}
-      />
-    );
+    return <Octicons name={icon} size={24} color={Colors[theme].tabbar.inactive_icon} />;
   }
 
   return (

@@ -29,24 +29,36 @@ export const TabBar = ({ state, descriptors }: TabBarProps) => {
     <View
       style={{
         ...styles.wrapper,
-        marginBottom: insets.bottom,
         paddingLeft: insets.left,
         paddingRight: insets.right,
       }}>
-      <Pressable style={{ zIndex: 2 }} onPress={() => router.navigate('modal')}>
-        {({ pressed }) => (
-          <LinearGradient
-            colors={['#FFB950', '#FF3A3A']}
-            style={{
-              ...styles.plus_button,
-              opacity: pressed ? 0.8 : 1,
-            }}>
-            <Feather name="plus" color="#fff" size={24} />
-          </LinearGradient>
-        )}
-      </Pressable>
+      <LinearGradient
+        colors={['rgba(255,255,255,0)', 'rgba(255,255,255,1)']}
+        style={styles.container}
+      />
 
-      <View style={styles.border}>
+      <View
+        style={{
+          marginBottom: insets.bottom + 50,
+        }}>
+        <Pressable onPress={() => router.navigate('modal')}>
+          {({ pressed }) => (
+            <LinearGradient
+              colors={Colors[theme].background_gradient}
+              start={[0, 0]}
+              end={[1, 0]}
+              style={{
+                ...styles.add_btn,
+                opacity: pressed ? 0.8 : 1,
+              }}>
+              <Feather name="plus" color="#fff" size={28} />
+            </LinearGradient>
+          )}
+        </Pressable>
+      </View>
+      {/* </LinearGradient> */}
+
+      {/* <View style={styles.border}>
         <BlurView intensity={10} style={styles.container}>
           <Pressable onPress={navigateToHome}>
             <TabBarIcon isActive={pathname === '/'} icon="home" />
@@ -55,7 +67,7 @@ export const TabBar = ({ state, descriptors }: TabBarProps) => {
             <TabBarIcon isActive={pathname.includes('settings')} icon="gear" />
           </Pressable>
         </BlurView>
-      </View>
+      </View> */}
     </View>
   );
 };
@@ -68,7 +80,6 @@ const TabBarStyles = (theme: 'light' | 'dark') =>
       bottom: 0,
       width: `${100}%`,
       alignItems: 'center',
-      backgroundColor: 'transparent',
     },
     border: {
       borderRadius: 999,
@@ -83,19 +94,18 @@ const TabBarStyles = (theme: 'light' | 'dark') =>
     },
     container: {
       width: `${100}%`,
-      height: 54,
-      maxWidth: 216,
-      backgroundColor: Colors[theme].tabbar.background,
-      flex: 1,
-      justifyContent: 'space-between',
-      alignItems: 'center',
-      flexDirection: 'row',
-      paddingRight: 32,
-      paddingLeft: 32,
+      height: 80,
+      position: 'absolute',
+      // justifyContent: 'space-between',
+      // alignItems: 'center',
+      // flexDirection: 'row',
+      bottom: 0,
+      // paddingRight: 32,
+      // paddingLeft: 32,
     },
-    plus_button: {
-      width: 48,
-      height: 48,
+    add_btn: {
+      width: 55,
+      height: 55,
       borderRadius: 999,
       alignSelf: 'center',
       position: 'absolute',

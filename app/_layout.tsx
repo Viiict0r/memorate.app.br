@@ -7,6 +7,7 @@ import {
 import { useFonts } from 'expo-font';
 import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
+import { StatusBar } from 'expo-status-bar';
 import { useEffect } from 'react';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
@@ -60,7 +61,7 @@ const DarkTheme = {
   ...DefaultDarkTheme,
   colors: {
     ...DefaultDarkTheme.colors,
-    background: Colors.dark.background,
+    background: '#232323',
     text: Colors.dark.text,
   },
 };
@@ -69,7 +70,7 @@ const LightTheme = {
   ...DefaultLightTheme,
   colors: {
     ...DefaultLightTheme.colors,
-    background: Colors.light.background,
+    background: '#fff',
     text: Colors.light.text,
   },
 };
@@ -93,6 +94,7 @@ function RootLayoutNav() {
           </Stack>
         </ThemeProvider>
       </SafeAreaProvider>
+      <StatusBar style="light" />
     </PersonProvider>
   );
 }
