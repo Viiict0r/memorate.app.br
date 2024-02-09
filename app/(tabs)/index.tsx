@@ -17,7 +17,7 @@ type CardProps = {
 };
 
 const TodayCards = ({ data }: CardProps) => (
-  <View style={{ paddingHorizontal: LATERAL_PADDING, marginTop: 16 }}>
+  <View style={{ paddingHorizontal: LATERAL_PADDING, marginTop: 16 + 8 }}>
     <Text variant="h2">Hoje</Text>
     <FlatList
       style={{

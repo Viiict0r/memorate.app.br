@@ -92,7 +92,7 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 32,
     borderTopRightRadius: 32,
     backgroundColor: '#fff',
-    paddingTop: 8,
+    overflow: 'hidden',
     marginTop: -28,
   },
   header: {

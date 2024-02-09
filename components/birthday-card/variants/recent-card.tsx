@@ -67,8 +67,10 @@ export const RecentCard = ({ data }: Props) => {
               ]}>
               <Text
                 variant="cap4"
-                style={{ color: Colors[theme].birthday_card.today.btn_background }}>
-                Mensagem 🫢
+                style={{
+                  color: Colors[theme].birthday_card.today.btn_background,
+                }}>
+                Mensagem 🤭
               </Text>
             </View>
           )}

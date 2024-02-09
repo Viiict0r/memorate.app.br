@@ -14,6 +14,7 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { useColorScheme } from '@/components/useColorScheme';
 import Colors from '@/constants/Colors';
 import { PersonProvider } from '@/hooks/use-person';
+import { usePushNotifications } from '@/hooks/use-push-notifications';
 import { UserProvider } from '@/hooks/use-user';
 
 export {
@@ -78,6 +79,8 @@ const LightTheme = {
 
 function RootLayoutNav() {
   const colorScheme = useColorScheme();
+
+  usePushNotifications();
 
   return (
     <UserProvider>

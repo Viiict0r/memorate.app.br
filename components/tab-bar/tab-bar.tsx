@@ -1,22 +1,15 @@
 import { Feather } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { router } from 'expo-router';
-import { Pressable, StyleSheet, useColorScheme, View } from 'react-native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { Pressable, StyleSheet, useColorScheme } from 'react-native';
+import { initialWindowMetrics } from 'react-native-safe-area-context';
 
 import Colors from '@/constants/Colors';
 import { useUser } from '@/hooks/use-user';
 import { addPerson } from '@/lib/firebase';
 import { makePerson } from '@/types/person';
 
-type TabBarProps = {
-  state: any;
-  descriptors: any;
-  navigation: any;
-};
-
-export const TabBar = ({ state, descriptors }: TabBarProps) => {
-  const insets = useSafeAreaInsets();
+export const TabBar = () => {
   const { user } = useUser();
   const theme = useColorScheme() ?? 'light';
 
@@ -27,68 +20,48 @@ export const TabBar = ({ state, descriptors }: TabBarProps) => {
     addPerson(
       user!.uid,
       makePerson({
-        fullname: 'Enzo 3',
+        fullname: 'Victor',
         photo:
           'https://images.unsplash.com/photo-1599566150163-29194dcaad36?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8YXZhdGFyfGVufDB8fDB8fHww',
         birthday: {
-          day: 4,
-          month: 3,
-          year: 2005,
+          day: 7,
+          month: 1,
+          year: 2000,
         },
       }),
     );
   };
 
   return (
-    <View
-      style={[
-        styles.wrapper,
-        {
-          paddingLeft: insets.left,
-          paddingRight: insets.right,
-        },
-      ]}>
-      <LinearGradient
-        colors={['rgba(255,255,255,0)', 'rgba(255,255,255,1)']}
-        style={styles.container}
-      />
-
-      <View
-        style={{
-          marginBottom: insets.bottom + 50,
-        }}>
-        <Pressable onPress={teste}>
-          {({ pressed }) => (
-            <LinearGradient
-              colors={Colors[theme].background_gradient}
-              start={[0, 0]}
-              end={[1, 0]}
-              style={{
-                ...styles.add_btn,
-                opacity: pressed ? 0.8 : 1,
-              }}>
-              <Feather name="plus" color="#fff" size={28} />
-            </LinearGradient>
-          )}
-        </Pressable>
-      </View>
-    </View>
+    <LinearGradient
+      colors={['rgba(255,255,255,0.1)', 'rgba(255, 255, 255, 1)']}
+      style={styles.wrapper}>
+      <Pressable onPress={teste}>
+        {({ pressed }) => (
+          <LinearGradient
+            colors={Colors[theme].background_gradient}
+            start={[0, 0]}
+            end={[1, 0]}
+            style={{
+              ...styles.add_btn,
+              opacity: pressed ? 0.8 : 1,
+            }}>
+            <Feather name="plus" color="#fff" size={28} />
+          </LinearGradient>
+        )}
+      </Pressable>
+    </LinearGradient>
   );
 };
 
 const styles = StyleSheet.create({
   wrapper: {
     position: 'absolute',
-    flex: 1,
-    bottom: 0,
     width: `${100}%`,
+    bottom: 0,
+    paddingBottom: (initialWindowMetrics?.insets.bottom || 0) + 20,
     alignItems: 'center',
-  },
-  container: {
-    width: `${100}%`,
-    height: 80,
-    position: 'absolute',
-    bottom: 0,
+    backgroundColor: 'transparent',
   },
   add_btn: {
     width: 55,

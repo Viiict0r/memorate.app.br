@@ -31,7 +31,7 @@ export const OthersCard = ({ data }: Props) => {
       return 'Aniversário próximo ⏰';
     }
 
-    return null;
+    return 'Faltam alguns meses... 😴';
   };
 
   const description = getDescription();
