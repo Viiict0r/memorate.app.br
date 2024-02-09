@@ -1,15 +1,12 @@
 import { Feather } from '@expo/vector-icons';
-import { BlurView } from 'expo-blur';
 import { LinearGradient } from 'expo-linear-gradient';
-import { router, usePathname } from 'expo-router';
+import { router } from 'expo-router';
 import { Pressable, StyleSheet, useColorScheme, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import { TabBarIcon } from './tab-icon';
-
 import Colors from '@/constants/Colors';
 import { useUser } from '@/hooks/use-user';
-import { addPerson, getPersons } from '@/lib/firebase';
+import { addPerson } from '@/lib/firebase';
 import { makePerson } from '@/types/person';
 
 type TabBarProps = {
@@ -20,11 +17,8 @@ type TabBarProps = {
 
 export const TabBar = ({ state, descriptors }: TabBarProps) => {
   const insets = useSafeAreaInsets();
-  const pathname = usePathname();
   const { user } = useUser();
   const theme = useColorScheme() ?? 'light';
-
-  const styles = TabBarStyles(theme);
 
   const navigateToHome = () => router.navigate('/');
   const navigateToSettings = () => router.navigate('settings');
@@ -47,11 +41,13 @@ export const TabBar = ({ state, descriptors }: TabBarProps) => {
 
   return (
     <View
-      style={{
-        ...styles.wrapper,
-        paddingLeft: insets.left,
-        paddingRight: insets.right,
-      }}>
+      style={[
+        styles.wrapper,
+        {
+          paddingLeft: insets.left,
+          paddingRight: insets.right,
+        },
+      ]}>
       <LinearGradient
         colors={['rgba(255,255,255,0)', 'rgba(255,255,255,1)']}
         style={styles.container}
@@ -76,63 +72,34 @@ export const TabBar = ({ state, descriptors }: TabBarProps) => {
           )}
         </Pressable>
       </View>
-      {/* </LinearGradient> */}
-
-      {/* <View style={styles.border}>
-        <BlurView intensity={10} style={styles.container}>
-          <Pressable onPress={navigateToHome}>
-            <TabBarIcon isActive={pathname === '/'} icon="home" />
-          </Pressable>
-          <Pressable onPress={navigateToSettings}>
-            <TabBarIcon isActive={pathname.includes('settings')} icon="gear" />
-          </Pressable>
-        </BlurView>
-      </View> */}
     </View>
   );
 };
 
-const TabBarStyles = (theme: 'light' | 'dark') =>
-  StyleSheet.create({
-    wrapper: {
-      position: 'absolute',
-      flex: 1,
-      bottom: 0,
-      width: `${100}%`,
-      alignItems: 'center',
-    },
-    border: {
-      borderRadius: 999,
-      overflow: 'hidden',
-      width: '100%',
-      maxWidth: 216,
-      backgroundColor: 'null',
-      borderWidth: 1,
-      borderColor: Colors[theme].tabbar.border,
-      zIndex: 1,
-      flex: 1,
-    },
-    container: {
-      width: `${100}%`,
-      height: 80,
-      position: 'absolute',
-      // justifyContent: 'space-between',
-      // alignItems: 'center',
-      // flexDirection: 'row',
-      bottom: 0,
-      // paddingRight: 32,
-      // paddingLeft: 32,
-    },
-    add_btn: {
-      width: 55,
-      height: 55,
-      borderRadius: 999,
-      alignSelf: 'center',
-      position: 'absolute',
-      marginTop: -10,
-      zIndex: 2,
-      flex: 1,
-      justifyContent: 'center',
-      alignItems: 'center',
-    },
-  });
+const styles = StyleSheet.create({
+  wrapper: {
+    position: 'absolute',
+    flex: 1,
+    bottom: 0,
+    width: `${100}%`,
+    alignItems: 'center',
+  },
+  container: {
+    width: `${100}%`,
+    height: 80,
+    position: 'absolute',
+    bottom: 0,
+  },
+  add_btn: {
+    width: 55,
+    height: 55,
+    borderRadius: 999,
+    alignSelf: 'center',
+    position: 'absolute',
+    marginTop: -10,
+    zIndex: 2,
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+});

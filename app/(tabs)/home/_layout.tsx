@@ -22,7 +22,7 @@ const Header = () => {
       <View style={styles.header}>
         <Image
           style={styles.header__logo}
-          source={require(`../../assets/images/memorate-light.png`)}
+          source={require(`../../../assets/images/memorate-light.png`)}
         />
         <View
           style={{
