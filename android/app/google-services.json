@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "512970120458",
+    "project_id": "memorate-f254d",
+    "storage_bucket": "memorate-f254d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:512970120458:android:9a1fae2e42c1f780462ef3",
+        "android_client_info": {
+          "package_name": "com.viensoft.memorate.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "512970120458-6sucj6grp7d6ga6qa8jhemb50pl8ahes.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDGGsFxQTfFsnQ1OqQ7RaN104dO9nfbXU0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "512970120458-6sucj6grp7d6ga6qa8jhemb50pl8ahes.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "512970120458-60dfs00lv3n6mfatu5vocffe0alnafph.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.viensoft.memorate.app"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
