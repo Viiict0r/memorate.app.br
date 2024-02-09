@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "memorate: Lembrete de aniversários",
-    "slug": "memorate.app.br",
+    "name": "memorate",
+    "slug": "memorate",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -18,13 +18,15 @@
     "ios": {
       "supportsTablet": true,
       "googleServicesFile": "./GoogleService-Info.plist",
-      "bundleIdentifier": "com.viensoft.memorate-app"
+      "bundleIdentifier": "com.viensoft.memorate.app"
     },
     "android": {
+      "googleServicesFile": "./google-services.json",
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.viensoft.memorate.app"
     },
     "web": {
       "bundler": "metro",

@@ -1,3 +1,3 @@
 - Gerar credenciais firebase android
 
-com.viensoft.memorate-app
+com.viensoft.memorate.app
