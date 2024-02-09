@@ -122,7 +122,7 @@ const NextCards = ({ data }: CardProps) => {
   };
 
   return (
-    <View style={{ marginTop: 16, paddingHorizontal: LATERAL_PADDING }}>
+    <View style={{ marginTop: 16, paddingHorizontal: LATERAL_PADDING, paddingBottom: 110 }}>
       <Text variant="h2">Próximos</Text>
       <FlatList
         style={{
