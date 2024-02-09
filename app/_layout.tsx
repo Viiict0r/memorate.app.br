@@ -13,8 +13,8 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import { useColorScheme } from '@/components/useColorScheme';
 import Colors from '@/constants/Colors';
-import { PersonProvider } from '@/hooks/usePerson';
-import { makeAnonymousLogin } from '@/lib/firebase';
+import { PersonProvider } from '@/hooks/use-person';
+import { UserProvider } from '@/hooks/use-user';
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -23,7 +23,7 @@ export {
 
 export const unstable_settings = {
   // Ensure that reloading on `/modal` keeps a back button present.
-  initialRouteName: '(tabs)',
+  initialRouteName: 'home',
 };
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
@@ -47,10 +47,7 @@ export default function RootLayout() {
 
   useEffect(() => {
     if (loaded) {
-      makeAnonymousLogin().then(() => {
-        SplashScreen.hideAsync();
-        console.log('login efetuado');
-      });
+      SplashScreen.hideAsync();
     }
   }, [loaded]);
 
@@ -83,22 +80,24 @@ function RootLayoutNav() {
   const colorScheme = useColorScheme();
 
   return (
-    <PersonProvider>
-      <SafeAreaProvider>
-        <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : LightTheme}>
-          <Stack>
-            <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-            <Stack.Screen
-              name="modal"
-              options={{
-                presentation: 'modal',
-                headerShown: false,
-              }}
-            />
-          </Stack>
-        </ThemeProvider>
-      </SafeAreaProvider>
-      <StatusBar style="light" />
-    </PersonProvider>
+    <UserProvider>
+      <PersonProvider>
+        <SafeAreaProvider>
+          <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : LightTheme}>
+            <Stack>
+              <Stack.Screen name="home" options={{ headerShown: false }} />
+              <Stack.Screen
+                name="modal"
+                options={{
+                  presentation: 'modal',
+                  headerShown: false,
+                }}
+              />
+            </Stack>
+          </ThemeProvider>
+        </SafeAreaProvider>
+        <StatusBar style="light" />
+      </PersonProvider>
+    </UserProvider>
   );
 }

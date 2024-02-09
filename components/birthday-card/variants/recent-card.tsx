@@ -4,9 +4,28 @@ import { Avatar } from '../avatar';
 
 import { Text } from '@/components/text';
 import Colors from '@/constants/Colors';
+import { PersonView } from '@/lib/transform-data';
+import { firstName } from '@/utils/first-name';
 
-export const RecentCard = () => {
+type Props = {
+  data: PersonView;
+};
+
+export const RecentCard = ({ data }: Props) => {
   const theme = useColorScheme() || 'light';
+  const person = data.data;
+
+  const getDescription = () => {
+    const timeText = data.daysPast > 1 ? `há ${data.daysPast} dias` : 'ontem';
+
+    if (data.data.birthday.year) {
+      const age = new Date().getFullYear() - data.data.birthday.year;
+
+      return `Fez ${age} ano${age > 1 ? 's' : ''} ${timeText}.`;
+    }
+
+    return `Ficou mais velho(a) ${timeText}.`;
+  };
 
   return (
     <View
@@ -17,10 +36,10 @@ export const RecentCard = () => {
         styles.container,
       ]}>
       <View style={styles.name_container}>
-        <Avatar src size={32} />
+        <Avatar src={person?.photo} size={32} />
         <View>
           <Text variant="sub1">
-            Joseph • <Text variant="cap2">Fez 45 anos há 2 dias.</Text>
+            {firstName(person.fullname)} • <Text variant="cap2">{getDescription()}</Text>
           </Text>
         </View>
       </View>

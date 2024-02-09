@@ -1,6 +1,4 @@
-import { Image, StyleSheet, View, useColorScheme } from 'react-native';
-
-import { TextMedium } from '../styled-text';
+import { Image, StyleSheet, useColorScheme } from 'react-native';
 
 import Colors from '@/constants/Colors';
 
@@ -8,7 +6,7 @@ const test_url =
   'https://images.unsplash.com/photo-1599566150163-29194dcaad36?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8YXZhdGFyfGVufDB8fDB8fHww';
 
 type Props = {
-  src?: boolean; // TODO: Change to string and receive profile url
+  src?: string; // TODO: Change to string and receive profile url
   size?: number;
 };
 
@@ -17,7 +15,7 @@ export const Avatar = ({ src, size = 50 }: Props) => {
 
   const styles = AvatarStyles(theme);
 
-  return src ? (
+  return (
     <Image
       style={[
         {
@@ -26,20 +24,14 @@ export const Avatar = ({ src, size = 50 }: Props) => {
         },
         styles.avatar,
       ]}
-      source={{
-        uri: test_url,
-      }}
+      source={
+        src
+          ? {
+              uri: test_url,
+            }
+          : require(`../../assets/images/no-photo.png`)
+      }
     />
-  ) : (
-    <View style={styles.placeholder}>
-      <TextMedium
-        size={22}
-        style={{
-          color: Colors[theme].avatar_placeholder.border,
-        }}>
-        L
-      </TextMedium>
-    </View>
   );
 };
 

@@ -8,6 +8,9 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { TabBarIcon } from './tab-icon';
 
 import Colors from '@/constants/Colors';
+import { useUser } from '@/hooks/use-user';
+import { addPerson, getPersons } from '@/lib/firebase';
+import { makePerson } from '@/types/person';
 
 type TabBarProps = {
   state: any;
@@ -18,12 +21,29 @@ type TabBarProps = {
 export const TabBar = ({ state, descriptors }: TabBarProps) => {
   const insets = useSafeAreaInsets();
   const pathname = usePathname();
+  const { user } = useUser();
   const theme = useColorScheme() ?? 'light';
 
   const styles = TabBarStyles(theme);
 
   const navigateToHome = () => router.navigate('/');
   const navigateToSettings = () => router.navigate('settings');
+
+  const teste = () => {
+    addPerson(
+      user!.uid,
+      makePerson({
+        fullname: 'Enzo 3',
+        photo:
+          'https://images.unsplash.com/photo-1599566150163-29194dcaad36?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8YXZhdGFyfGVufDB8fDB8fHww',
+        birthday: {
+          day: 4,
+          month: 3,
+          year: 2005,
+        },
+      }),
+    );
+  };
 
   return (
     <View
@@ -41,7 +61,7 @@ export const TabBar = ({ state, descriptors }: TabBarProps) => {
         style={{
           marginBottom: insets.bottom + 50,
         }}>
-        <Pressable onPress={() => router.navigate('modal')}>
+        <Pressable onPress={teste}>
           {({ pressed }) => (
             <LinearGradient
               colors={Colors[theme].background_gradient}

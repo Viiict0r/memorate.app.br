@@ -1,18 +1,39 @@
 const months = {
-  1: 'JAN',
-  2: 'FEV',
-  3: 'MAR',
-  4: 'ABR',
-  5: 'MAI',
-  6: 'JUN',
-  7: 'JUL',
-  8: 'AGO',
-  9: 'SET',
-  10: 'OUT',
-  11: 'NOV',
-  12: 'DEZ',
+  0: 'JAN',
+  1: 'FEV',
+  2: 'MAR',
+  3: 'ABR',
+  4: 'MAI',
+  5: 'JUN',
+  6: 'JUL',
+  7: 'AGO',
+  8: 'SET',
+  9: 'OUT',
+  10: 'NOV',
+  11: 'DEZ',
 };
 
-export function parseMonth(month: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12) {
-  return months[month];
+const fullMonth = {
+  0: 'JANEIRO',
+  1: 'FEVEREIRO',
+  2: 'MARÇO',
+  3: 'ABRIL',
+  4: 'MAIO',
+  5: 'JUNHO',
+  6: 'JULHO',
+  7: 'AGOSTO',
+  8: 'SETEMBRO',
+  9: 'OUTUBRO',
+  10: 'NOVEMBRO',
+  11: 'DEZEMBRO',
+};
+
+export function parseMonth(month: any) {
+  // TODO: Melhorar depois
+  return months[month as 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11];
+}
+
+export function parseFullMonth(month: any) {
+  // TODO: Melhorar depois
+  return fullMonth[month as 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11];
 }

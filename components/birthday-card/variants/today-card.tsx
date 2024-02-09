@@ -4,9 +4,27 @@ import { Avatar } from '../avatar';
 
 import { Text } from '@/components/text';
 import Colors from '@/constants/Colors';
+import { PersonView } from '@/lib/transform-data';
 
-export const TodayCard = () => {
+type Props = {
+  data: PersonView;
+};
+
+export const TodayCard = ({ data }: Props) => {
   const theme = useColorScheme() || 'light';
+  const person = data.data;
+
+  const getAge = () => {
+    if (data.data.birthday.year) {
+      const age = new Date().getFullYear() - data.data.birthday.year;
+
+      return `${age} ano${age > 1 ? 's' : ''}`;
+    }
+
+    return null;
+  };
+
+  const age = getAge();
 
   return (
     <View
@@ -17,12 +35,18 @@ export const TodayCard = () => {
         styles.container,
       ]}>
       <View style={styles.name_container}>
-        <Avatar src />
+        <Avatar src={person?.photo} />
         <View>
-          <Text variant="sub1">Joseph Camolle</Text>
-          <Text variant="body2">
-            Fazendo <Text variant="body1">43 anos</Text> hoje! 🎈
-          </Text>
+          <Text variant="sub1">{person.fullname}</Text>
+          {age ? (
+            <Text variant="body2">
+              Fazendo <Text variant="body1">{age}</Text> hoje! 🎈
+            </Text>
+          ) : (
+            <Text variant="body2">
+              Fazendo <Text variant="body1">aniversário</Text> hoje! 🎈
+            </Text>
+          )}
         </View>
         <View style={{ flex: 1, alignItems: 'flex-end' }}>
           <NativeText style={{ fontSize: 22 }}>🎉</NativeText>
