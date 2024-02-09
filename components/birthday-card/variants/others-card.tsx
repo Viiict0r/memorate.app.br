@@ -1,8 +1,7 @@
-import { StyleSheet, View } from 'react-native';
-
-import { Avatar } from '../avatar';
+import { Image, StyleSheet, View } from 'react-native';
 
 import { Text } from '@/components/text';
+import { darkgrey, grey } from '@/constants/Colors';
 import { PersonView } from '@/lib/transform-data';
 import { parseMonth } from '@/utils/month-parser';
 
@@ -13,23 +12,60 @@ type Props = {
 export const OthersCard = ({ data }: Props) => {
   const person = data.data;
 
+  const getDescription = () => {
+    const { birthday } = data.data;
+
+    if (birthday.year) {
+      const age = new Date().getFullYear() - birthday.year;
+
+      if (data.daysLeft <= 20) {
+        return `Prestes a fazer ${age} anos  👀🎉`;
+      }
+
+      if (data.daysLeft <= 90) {
+        return `Aproximando-se dos ${age} anos ⏰`;
+      }
+    } else if (data.daysLeft <= 20) {
+      return 'Aniversário chegando 🥳';
+    } else if (data.daysLeft <= 90) {
+      return 'Aniversário próximo ⏰';
+    }
+
+    return null;
+  };
+
+  const description = getDescription();
+
   return (
     <View style={styles.container}>
       <View style={styles.date}>
         <Text variant="sub1">{String(person.birthday.day).padStart(2, '0')}</Text>
         <Text variant="body1">{parseMonth(person.birthday.month)}</Text>
       </View>
-      <Avatar src={person?.photo} size={44} />
+      <View
+        style={{
+          padding: 1,
+          borderRadius: 99,
+          width: 44,
+          height: 44,
+          borderWidth: 2,
+          borderColor: grey,
+        }}>
+        <Image
+          style={{
+            width: '100%',
+            height: '100%',
+          }}
+          source={require(`../../../assets/images/no-photo.png`)}
+        />
+      </View>
       <View style={styles.name}>
-        <Text variant="button1">
-          {/* Leticia <Text variant="sub2">Souza</Text> */}
-          {person.fullname}
-        </Text>
-        <Text variant="cap2">Prestes a fazer 23 anos 👀🎉</Text>
+        <Text variant="button1">{person.fullname}</Text>
+        {description && <Text variant="cap2">{description}</Text>}
       </View>
       <View style={styles.days}>
-        <Text variant="sub1">{data.daysLeft}</Text>
-        <Text variant="body1">dias</Text>
+        <Text variant="sub1">{String(data.daysLeft).padStart(2, '0')}</Text>
+        <Text variant="body1" lightColor={darkgrey}>{`dia${data.daysLeft > 1 ? 's' : ''}`}</Text>
       </View>
     </View>
   );

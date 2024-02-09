@@ -1,4 +1,4 @@
-import { Image, StyleSheet, useColorScheme } from 'react-native';
+import { Image, ImageStyle, StyleProp, StyleSheet, useColorScheme } from 'react-native';
 
 import Colors from '@/constants/Colors';
 
@@ -8,9 +8,10 @@ const test_url =
 type Props = {
   src?: string; // TODO: Change to string and receive profile url
   size?: number;
+  styles?: StyleProp<ImageStyle>;
 };
 
-export const Avatar = ({ src, size = 50 }: Props) => {
+export const Avatar = ({ src, size = 50, styles: propStyles }: Props) => {
   const theme = useColorScheme() ?? 'light';
 
   const styles = AvatarStyles(theme);
@@ -23,6 +24,7 @@ export const Avatar = ({ src, size = 50 }: Props) => {
           height: size,
         },
         styles.avatar,
+        propStyles,
       ]}
       source={
         src

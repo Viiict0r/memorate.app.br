@@ -1,11 +1,11 @@
-const lighter = '#f5f5f5';
-const lightgrey = '#EDEDED';
-const orange = '#ffb950';
-const green = '#0bd96e';
-const grey = '#aeaeae';
-const darkgrey = '#676767';
-const darker = '#303030';
-const gradient = ['#BD00FF', '#2F00B6'];
+export const lighter = '#f5f5f5';
+export const lightgrey = '#EDEDED';
+export const orange = '#ffb950';
+export const green = '#0bd96e';
+export const grey = '#aeaeae';
+export const darkgrey = '#676767';
+export const darker = '#303030';
+export const gradient = ['#BD00FF', '#2F00B6'];
 
 export default {
   light: {

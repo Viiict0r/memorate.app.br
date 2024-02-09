@@ -3,7 +3,7 @@ import { StyleSheet, View, useColorScheme, Pressable } from 'react-native';
 import { Avatar } from '../avatar';
 
 import { Text } from '@/components/text';
-import Colors from '@/constants/Colors';
+import Colors, { darker } from '@/constants/Colors';
 import { PersonView } from '@/lib/transform-data';
 import { firstName } from '@/utils/first-name';
 
@@ -36,7 +36,13 @@ export const RecentCard = ({ data }: Props) => {
         styles.container,
       ]}>
       <View style={styles.name_container}>
-        <Avatar src={person?.photo} size={32} />
+        <Avatar
+          src={person?.photo}
+          size={32}
+          styles={{
+            borderColor: darker,
+          }}
+        />
         <View>
           <Text variant="sub1">
             {firstName(person.fullname)} • <Text variant="cap2">{getDescription()}</Text>

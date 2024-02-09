@@ -5,6 +5,7 @@ import { BirthdayCard } from '@/components/birthday-card';
 import { MonthDivider } from '@/components/month-divider';
 import { Text } from '@/components/text';
 import { usePerson } from '@/hooks/use-person';
+import { HomeLayout } from '@/layouts/home-layout';
 import { PersonView, transformToView } from '@/lib/transform-data';
 import { Person } from '@/types/person';
 import { parseFullMonth } from '@/utils/month-parser';
@@ -144,10 +145,12 @@ export default function HomeScreen() {
   const transformed = transformToView(data);
 
   return (
-    <ScrollView>
-      <TodayCards data={transformed.today} />
-      <RecentCards data={transformed.recent} />
-      <NextCards data={transformed.next} />
-    </ScrollView>
+    <HomeLayout>
+      <ScrollView>
+        <TodayCards data={transformed.today} />
+        <RecentCards data={transformed.recent} />
+        <NextCards data={transformed.next} />
+      </ScrollView>
+    </HomeLayout>
   );
 }

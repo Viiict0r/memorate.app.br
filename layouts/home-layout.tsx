@@ -1,7 +1,6 @@
 import { Octicons } from '@expo/vector-icons';
 import MaskedView from '@react-native-masked-view/masked-view';
 import { LinearGradient } from 'expo-linear-gradient';
-import { Slot } from 'expo-router';
 import { Image, Pressable, StyleSheet, useColorScheme } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -22,7 +21,7 @@ const Header = () => {
       <View style={styles.header}>
         <Image
           style={styles.header__logo}
-          source={require(`../../../assets/images/memorate-light.png`)}
+          source={require(`../assets/images/memorate-light.png`)}
         />
         <View
           style={{
@@ -65,13 +64,15 @@ const Header = () => {
   );
 };
 
-export default function HomeLayout() {
+type Props = {
+  children: React.ReactNode;
+};
+
+export function HomeLayout({ children }: Props) {
   return (
     <View style={styles.container}>
       <Header />
-      <View style={styles.content__bg}>
-        <Slot />
-      </View>
+      <View style={styles.content__bg}>{children}</View>
     </View>
   );
 }
