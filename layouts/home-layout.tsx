@@ -41,7 +41,9 @@ const Header = () => {
                     <Octicons name="star-fill" size={10} />
                   </LinearGradient>
                 </MaskedView>
-                <MaskedView maskElement={<TextMedium size={12}>Premium</TextMedium>}>
+                <MaskedView
+                  maskElement={<TextMedium size={12}>Premium</TextMedium>}
+                  style={{ marginBottom: -1 }}>
                   <LinearGradient colors={Colors.dark.background_gradient}>
                     <TextMedium style={{ color: 'transparent' }} size={12}>
                       Premium

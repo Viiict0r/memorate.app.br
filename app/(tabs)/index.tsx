@@ -1,9 +1,11 @@
-import React from 'react';
+import { router } from 'expo-router';
+import React, { useEffect } from 'react';
 import { View, ScrollView, FlatList } from 'react-native';
 
 import { BirthdayCard } from '@/components/birthday-card';
 import { MonthDivider } from '@/components/month-divider';
 import { Text } from '@/components/text';
+import { useFirstOpen } from '@/hooks/use-first-open';
 import { usePerson } from '@/hooks/use-person';
 import { HomeLayout } from '@/layouts/home-layout';
 import { PersonView, transformToView } from '@/lib/transform-data';
@@ -143,6 +145,11 @@ export default function HomeScreen() {
   const { data } = usePerson();
 
   const transformed = transformToView(data);
+  const openWelcomeScreen = () => router.navigate('welcome');
+
+  useFirstOpen(() => {
+    openWelcomeScreen();
+  });
 
   return (
     <HomeLayout>

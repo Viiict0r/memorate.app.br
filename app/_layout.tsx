@@ -88,7 +88,7 @@ function RootLayoutNav() {
             <Stack>
               <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
               <Stack.Screen
-                name="modal"
+                name="welcome"
                 options={{
                   presentation: 'modal',
                   headerShown: false,

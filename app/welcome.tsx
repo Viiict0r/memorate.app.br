@@ -1,5 +1,4 @@
-import { StatusBar } from 'expo-status-bar';
-import { Platform, StyleSheet, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 
 import { TextBold } from '@/components/styled-text';
 
@@ -7,6 +6,7 @@ export default function ModalScreen() {
   return (
     <View style={styles.container}>
       <TextBold>@gorhom/react-native-bottom-sheet</TextBold>
+      <TextBold>Bem vindo(a)!</TextBold>
     </View>
   );
 }
