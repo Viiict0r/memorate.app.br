@@ -1,7 +1,7 @@
 import { Feather } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { router } from 'expo-router';
-import { Pressable, StyleSheet, useColorScheme } from 'react-native';
+import { Platform, Pressable, StyleSheet, useColorScheme } from 'react-native';
 import { initialWindowMetrics } from 'react-native-safe-area-context';
 
 import Colors from '@/constants/Colors';
@@ -35,7 +35,7 @@ export const TabBar = () => {
   return (
     <LinearGradient
       colors={['rgba(255,255,255,0.1)', 'rgba(255, 255, 255, 1)']}
-      style={styles.wrapper}>
+      style={Platform.OS === 'android' ? styles.wrapper_android : styles.wrapper_ios}>
       <Pressable onPress={teste}>
         {({ pressed }) => (
           <LinearGradient
@@ -55,13 +55,23 @@ export const TabBar = () => {
 };
 
 const styles = StyleSheet.create({
-  wrapper: {
+  wrapper_android: {
     position: 'absolute',
     width: `${100}%`,
     bottom: 0,
     paddingBottom: (initialWindowMetrics?.insets.bottom || 0) + 20,
     alignItems: 'center',
     backgroundColor: 'transparent',
+  },
+  wrapper_ios: {
+    position: 'absolute',
+    width: `${100}%`,
+    bottom: 0,
+    height: 80,
+    paddingBottom: initialWindowMetrics?.insets.bottom || 0,
+    alignItems: 'center',
+    backgroundColor: 'transparent',
+    overflow: 'visible',
   },
   add_btn: {
     width: 55,
