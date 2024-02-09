@@ -11,10 +11,10 @@ import { StatusBar } from 'expo-status-bar';
 import { useEffect } from 'react';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
+import { PushNotificationManager } from '@/components/push-notification-manager';
 import { useColorScheme } from '@/components/useColorScheme';
 import Colors from '@/constants/Colors';
 import { PersonProvider } from '@/hooks/use-person';
-import { usePushNotifications } from '@/hooks/use-push-notifications';
 import { UserProvider } from '@/hooks/use-user';
 
 export {
@@ -80,8 +80,6 @@ const LightTheme = {
 function RootLayoutNav() {
   const colorScheme = useColorScheme();
 
-  usePushNotifications();
-
   return (
     <UserProvider>
       <PersonProvider>
@@ -101,6 +99,7 @@ function RootLayoutNav() {
         </SafeAreaProvider>
         <StatusBar style="light" />
       </PersonProvider>
+      <PushNotificationManager />
     </UserProvider>
   );
 }

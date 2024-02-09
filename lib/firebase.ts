@@ -1,19 +1,33 @@
-import firestore from '@react-native-firebase/firestore'
-import { Person } from "@/types/person";
+import firestore from '@react-native-firebase/firestore';
+
+import { Person } from '@/types/person';
 
 export async function addPerson(user_id: string, data: Person) {
-  await firestore().doc(`persons/${user_id}`).collection('data').add(data)
-  console.log('new person')
+  await firestore().doc(`persons/${user_id}`).collection('data').add(data);
+  console.log('new person');
 }
 
 export async function getPersons(user_id: string): Promise<Person[] | null> {
   try {
-    const data = await firestore().doc(`persons/${user_id}`).collection('data').get()
-    const result = data.docs.map(doc => doc.data() as Person)
+    const data = await firestore().doc(`persons/${user_id}`).collection('data').get();
+    const result = data.docs.map((doc) => doc.data() as Person);
 
-    return result
+    return result;
   } catch (error) {
     /** capturar erro */
-    return null
+    return null;
+  }
+}
+
+export async function savePushToken(user_id: string, token: string) {
+  try {
+    await firestore()
+      .doc(`persons/${user_id}`)
+      .collection('settings')
+      .doc('push_token')
+      .set({ token });
+    console.log('Push token saved');
+  } catch (error) {
+    console.error(error);
   }
 }
