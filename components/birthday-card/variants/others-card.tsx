@@ -1,7 +1,7 @@
 import { Image, StyleSheet, View } from 'react-native';
 
 import { Text } from '@/components/text';
-import { darkgrey, grey } from '@/constants/Colors';
+import { darkgrey, grey, grey3 } from '@/constants/Colors';
 import { PersonView } from '@/lib/transform-data';
 import { parseMonth } from '@/utils/month-parser';
 
@@ -39,8 +39,12 @@ export const OthersCard = ({ data }: Props) => {
   return (
     <View style={styles.container}>
       <View style={styles.date}>
-        <Text variant="sub1">{String(person.birthday.day).padStart(2, '0')}</Text>
-        <Text variant="body1">{parseMonth(person.birthday.month)}</Text>
+        <Text variant="sub1" lightColor={grey3} darkColor={grey3}>
+          {String(person.birthday.day).padStart(2, '0')}
+        </Text>
+        <Text variant="body1" lightColor={grey3} darkColor={grey3}>
+          {parseMonth(person.birthday.month)}
+        </Text>
       </View>
       <View
         style={{
@@ -49,7 +53,7 @@ export const OthersCard = ({ data }: Props) => {
           width: 44,
           height: 44,
           borderWidth: 2,
-          borderColor: grey,
+          borderColor: grey3,
         }}>
         <Image
           style={{
@@ -60,12 +64,23 @@ export const OthersCard = ({ data }: Props) => {
         />
       </View>
       <View style={styles.name}>
-        <Text variant="button1">{person.fullname}</Text>
-        {description && <Text variant="cap2">{description}</Text>}
+        <Text variant="button1" darkColor={grey}>
+          {person.fullname}
+        </Text>
+        {description && (
+          <Text variant="cap2" lightColor={darkgrey} darkColor={darkgrey}>
+            {description}
+          </Text>
+        )}
       </View>
       <View style={styles.days}>
-        <Text variant="sub1">{String(data.daysLeft).padStart(2, '0')}</Text>
-        <Text variant="body1" lightColor={darkgrey}>{`dia${data.daysLeft > 1 ? 's' : ''}`}</Text>
+        <Text variant="sub1" lightColor={darkgrey} darkColor={darkgrey}>
+          {String(data.daysLeft).padStart(2, '0')}
+        </Text>
+        <Text
+          variant="body1"
+          lightColor={grey3}
+          darkColor={grey3}>{`dia${data.daysLeft > 1 ? 's' : ''}`}</Text>
       </View>
     </View>
   );

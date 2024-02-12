@@ -1,11 +1,11 @@
 import { Octicons } from '@expo/vector-icons';
 import MaskedView from '@react-native-masked-view/masked-view';
 import { LinearGradient } from 'expo-linear-gradient';
-import { Image, Pressable, StyleSheet, useColorScheme } from 'react-native';
+import { Image, Pressable, StyleSheet, View, useColorScheme } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { TextMedium } from '@/components/styled-text';
-import { View } from '@/components/themed';
+import { View as ThemedView } from '@/components/themed';
 import Colors from '@/constants/Colors';
 
 const Header = () => {
@@ -74,7 +74,7 @@ export function HomeLayout({ children }: Props) {
   return (
     <View style={styles.container}>
       <Header />
-      <View style={styles.content__bg}>{children}</View>
+      <ThemedView style={styles.content__bg}>{children}</ThemedView>
     </View>
   );
 }
@@ -93,7 +93,6 @@ const styles = StyleSheet.create({
     flex: 1,
     borderTopLeftRadius: 32,
     borderTopRightRadius: 32,
-    backgroundColor: '#fff',
     overflow: 'hidden',
     marginTop: -28,
   },

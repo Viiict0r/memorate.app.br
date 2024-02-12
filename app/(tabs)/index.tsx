@@ -1,10 +1,12 @@
 import { router } from 'expo-router';
-import React, { useEffect, useRef } from 'react';
+import React from 'react';
 import { View, ScrollView, FlatList } from 'react-native';
 
 import { BirthdayCard } from '@/components/birthday-card';
+import { Loading } from '@/components/loading';
 import { MonthDivider } from '@/components/month-divider';
 import { Text } from '@/components/text';
+import { darkgrey, grey } from '@/constants/Colors';
 import { useFirstOpen } from '@/hooks/use-first-open';
 import { usePerson } from '@/hooks/use-person';
 import { HomeLayout } from '@/layouts/home-layout';
@@ -21,39 +23,66 @@ type CardProps = {
 const TodayCards = ({ data }: CardProps) => (
   <View style={{ paddingHorizontal: LATERAL_PADDING, marginTop: 16 + 8 }}>
     <Text variant="h2">Hoje</Text>
-    <FlatList
-      style={{
-        marginHorizontal: -27,
-        marginTop: 8,
-      }}
-      horizontal
-      contentContainerStyle={{
-        paddingHorizontal: LATERAL_PADDING - 4,
-      }}
-      nestedScrollEnabled
-      data={data}
-      showsHorizontalScrollIndicator={false}
-      CellRendererComponent={(props) => <View {...props} style={{ paddingHorizontal: 4 }} />}
-      renderItem={({ item }) => <BirthdayCard key={item.data.id} data={item} variant="today" />}
-      keyExtractor={(item) => item.data.id}
-    />
+    {!data.length && (
+      <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 8 }}>
+        <Text variant="sub2" lightColor={grey} darkColor={darkgrey}>
+          Sem aniversários hoje 😔
+        </Text>
+      </View>
+    )}
+
+    {!!data.length && (
+      <FlatList
+        style={{
+          marginHorizontal: -27,
+          marginTop: 8,
+        }}
+        horizontal
+        contentContainerStyle={{
+          paddingHorizontal: LATERAL_PADDING - 4,
+        }}
+        nestedScrollEnabled
+        data={data}
+        showsHorizontalScrollIndicator={false}
+        CellRendererComponent={(props) => <View {...props} style={{ paddingHorizontal: 4 }} />}
+        renderItem={({ item }) => <BirthdayCard key={item.data.id} data={item} variant="today" />}
+        keyExtractor={(item) => item.data.id}
+      />
+    )}
   </View>
 );
 
 const RecentCards = ({ data }: CardProps) => (
   <View style={{ marginTop: 16, paddingHorizontal: LATERAL_PADDING }}>
     <Text variant="h2">Recentes</Text>
-    <FlatList
-      style={{
-        marginTop: 6,
-      }}
-      scrollEnabled={false}
-      data={data}
-      showsHorizontalScrollIndicator={false}
-      CellRendererComponent={(props) => <View {...props} style={{ paddingVertical: 2 }} />}
-      renderItem={({ item }) => <BirthdayCard key={item.data.id} data={item} variant="recent" />}
-      keyExtractor={(item) => item.data.id}
-    />
+    {!data.length && (
+      <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 8 }}>
+        <Text
+          variant="sub2"
+          lightColor={grey}
+          darkColor={darkgrey}
+          style={{
+            textAlign: 'center',
+            maxWidth: 205,
+          }}>
+          Já passaram uns dias desde o último aniversário. 🤔
+        </Text>
+      </View>
+    )}
+
+    {!!data.length && (
+      <FlatList
+        style={{
+          marginTop: 6,
+        }}
+        scrollEnabled={false}
+        data={data}
+        showsHorizontalScrollIndicator={false}
+        CellRendererComponent={(props) => <View {...props} style={{ paddingVertical: 2 }} />}
+        renderItem={({ item }) => <BirthdayCard key={item.data.id} data={item} variant="recent" />}
+        keyExtractor={(item) => item.data.id}
+      />
+    )}
   </View>
 );
 
@@ -142,10 +171,12 @@ const NextCards = ({ data }: CardProps) => {
 };
 
 export default function HomeScreen() {
-  const { data } = usePerson();
+  const { data, isLoading } = usePerson();
 
   const transformed = transformToView(data);
   const openWelcomeScreen = () => router.navigate('welcome');
+
+  const isEmpty = data.length === 0;
 
   useFirstOpen(() => {
     openWelcomeScreen();
@@ -154,9 +185,47 @@ export default function HomeScreen() {
   return (
     <HomeLayout>
       <ScrollView>
-        <TodayCards data={transformed.today} />
-        <RecentCards data={transformed.recent} />
-        <NextCards data={transformed.next} />
+        {!isEmpty && (
+          <>
+            <TodayCards data={transformed.today} />
+            <RecentCards data={transformed.recent} />
+            <NextCards data={transformed.next} />
+          </>
+        )}
+
+        {isLoading && <Loading />}
+
+        {isEmpty && !isLoading && (
+          <View
+            style={{
+              maxWidth: 212,
+              flex: 1,
+              paddingTop: '50%',
+              alignItems: 'center',
+              height: '100%',
+              alignSelf: 'center',
+            }}>
+            <Text variant="h1" style={{ marginBottom: 8 }}>
+              🙃
+            </Text>
+            <Text
+              variant="h2"
+              style={{
+                textAlign: 'center',
+              }}>
+              Nenhum aniversário adicionado ainda...
+            </Text>
+            <Text
+              variant="body2"
+              style={{
+                textAlign: 'center',
+                marginTop: 8,
+              }}>
+              Que tal <Text variant="body1">adicionar as datas</Text> de aniversário dos seus
+              amigos?
+            </Text>
+          </View>
+        )}
       </ScrollView>
     </HomeLayout>
   );

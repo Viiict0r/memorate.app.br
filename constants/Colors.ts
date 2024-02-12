@@ -4,7 +4,8 @@ export const orange = '#ffb950';
 export const green = '#0bd96e';
 export const grey = '#aeaeae';
 export const darkgrey = '#676767';
-export const darker = '#303030';
+export const darker = '#141414';
+export const grey3 = '#303030';
 export const gradient = ['#BD00FF', '#2F00B6'];
 
 export default {
@@ -12,6 +13,7 @@ export default {
     text: darker,
     text_gray: 'rgba(35, 35, 35, 0.50)',
     background_gradient: gradient,
+    background: lighter,
     tabbar: {
       inactive_icon: '#19191999',
       border: 'rgba(25, 25, 25, 0.20)',
@@ -35,6 +37,7 @@ export default {
     text: lighter,
     text_gray: 'rgba(255, 255, 255, 0.50)',
     background_gradient: gradient,
+    background: darker,
     tabbar: {
       inactive_icon: 'rgba(255, 255, 255, 0.6)',
       border: 'rgba(255, 255, 255, 0.20)',

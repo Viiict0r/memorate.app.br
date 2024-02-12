@@ -21,7 +21,11 @@ export const TabBar = () => {
 
   return (
     <LinearGradient
-      colors={['rgba(255,255,255,0.1)', 'rgba(255, 255, 255, 1)']}
+      colors={
+        theme === 'light'
+          ? ['rgba(255,255,255,0.1)', 'rgba(255, 255, 255, 1)']
+          : ['rgba(20,20,20,0.1)', 'rgba(20, 20, 20, 1)']
+      }
       style={Platform.OS === 'android' ? styles.wrapper_android : styles.wrapper_ios}>
       <Pressable onPress={handleAddPress}>
         {({ pressed }) => (
