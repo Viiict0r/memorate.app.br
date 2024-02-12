@@ -1,42 +1,29 @@
 import { Feather } from '@expo/vector-icons';
+import { BottomSheetModal } from '@gorhom/bottom-sheet';
 import { LinearGradient } from 'expo-linear-gradient';
 import { router } from 'expo-router';
+import { useRef } from 'react';
 import { Platform, Pressable, StyleSheet, useColorScheme } from 'react-native';
 import { initialWindowMetrics } from 'react-native-safe-area-context';
 
+import { AddNewForm } from '../add-new-form';
+
 import Colors from '@/constants/Colors';
-import { useUser } from '@/hooks/use-user';
-import { addPerson } from '@/lib/firebase';
-import { makePerson } from '@/types/person';
 
 export const TabBar = () => {
-  const { user } = useUser();
   const theme = useColorScheme() ?? 'light';
+  const bottomSheetModalRef = useRef<BottomSheetModal>(null);
 
   const navigateToHome = () => router.navigate('/');
   const navigateToSettings = () => router.navigate('settings');
 
-  const teste = () => {
-    addPerson(
-      user!.uid,
-      makePerson({
-        fullname: 'Victor',
-        photo:
-          'https://images.unsplash.com/photo-1599566150163-29194dcaad36?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8YXZhdGFyfGVufDB8fDB8fHww',
-        birthday: {
-          day: 7,
-          month: 1,
-          year: 2000,
-        },
-      }),
-    );
-  };
+  const handleAddPress = () => bottomSheetModalRef.current?.present();
 
   return (
     <LinearGradient
       colors={['rgba(255,255,255,0.1)', 'rgba(255, 255, 255, 1)']}
       style={Platform.OS === 'android' ? styles.wrapper_android : styles.wrapper_ios}>
-      <Pressable onPress={teste}>
+      <Pressable onPress={handleAddPress}>
         {({ pressed }) => (
           <LinearGradient
             colors={Colors[theme].background_gradient}
@@ -50,6 +37,15 @@ export const TabBar = () => {
           </LinearGradient>
         )}
       </Pressable>
+      <BottomSheetModal
+        containerStyle={{
+          backgroundColor: 'rgba(0, 0, 0, 0.5)',
+        }}
+        ref={bottomSheetModalRef}
+        index={1}
+        snapPoints={['25%', '60%']}>
+        <AddNewForm />
+      </BottomSheetModal>
     </LinearGradient>
   );
 };

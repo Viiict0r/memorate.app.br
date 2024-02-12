@@ -1,5 +1,5 @@
 import { router } from 'expo-router';
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { View, ScrollView, FlatList } from 'react-native';
 
 import { BirthdayCard } from '@/components/birthday-card';

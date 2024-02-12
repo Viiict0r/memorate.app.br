@@ -9,6 +9,7 @@ import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
 import { useEffect } from 'react';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import { PushNotificationManager } from '@/components/push-notification-manager';
@@ -81,25 +82,27 @@ function RootLayoutNav() {
   const colorScheme = useColorScheme();
 
   return (
-    <UserProvider>
-      <PersonProvider>
-        <SafeAreaProvider>
-          <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : LightTheme}>
-            <Stack>
-              <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-              <Stack.Screen
-                name="welcome"
-                options={{
-                  presentation: 'modal',
-                  headerShown: false,
-                }}
-              />
-            </Stack>
-          </ThemeProvider>
-        </SafeAreaProvider>
-        <StatusBar style="light" />
-      </PersonProvider>
-      <PushNotificationManager />
-    </UserProvider>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <UserProvider>
+        <PersonProvider>
+          <SafeAreaProvider>
+            <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : LightTheme}>
+              <Stack>
+                <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+                <Stack.Screen
+                  name="welcome"
+                  options={{
+                    presentation: 'modal',
+                    headerShown: false,
+                  }}
+                />
+              </Stack>
+            </ThemeProvider>
+          </SafeAreaProvider>
+          <StatusBar style="light" />
+        </PersonProvider>
+        <PushNotificationManager />
+      </UserProvider>
+    </GestureHandlerRootView>
   );
 }
