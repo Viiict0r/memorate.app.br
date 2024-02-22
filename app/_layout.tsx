@@ -14,9 +14,9 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import { PushNotificationManager } from '@/components/push-notification-manager';
-import { useColorScheme } from '@/components/useColorScheme';
 import Colors from '@/constants/Colors';
 import { PersonProvider } from '@/hooks/use-person';
+import { ThemeProvider as CustomThemeProvider, useTheme } from '@/hooks/use-theme';
 import { UserProvider } from '@/hooks/use-user';
 
 export {
@@ -58,7 +58,11 @@ export default function RootLayout() {
     return null;
   }
 
-  return <RootLayoutNav />;
+  return (
+    <CustomThemeProvider>
+      <RootLayoutNav />
+    </CustomThemeProvider>
+  );
 }
 
 const DarkTheme = {
@@ -80,7 +84,7 @@ const LightTheme = {
 };
 
 function RootLayoutNav() {
-  const colorScheme = useColorScheme();
+  const { theme } = useTheme();
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
@@ -88,13 +92,13 @@ function RootLayoutNav() {
         <UserProvider>
           <PersonProvider>
             <SafeAreaProvider>
-              <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : LightTheme}>
+              <ThemeProvider value={theme === 'dark' ? DarkTheme : LightTheme}>
                 <Stack>
                   <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+                  <Stack.Screen name="settings" options={{ headerShown: false }} />
                   <Stack.Screen
                     name="welcome"
                     options={{
-                      presentation: 'modal',
                       headerShown: false,
                     }}
                   />
