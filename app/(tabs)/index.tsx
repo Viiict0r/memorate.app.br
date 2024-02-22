@@ -153,8 +153,10 @@ const NextCards = ({ data }: CardProps) => {
   };
 
   return (
-    <View style={{ marginTop: 16, paddingHorizontal: LATERAL_PADDING, paddingBottom: 110 }}>
-      <Text variant="h2">Próximos</Text>
+    <View style={{ marginTop: 16, paddingBottom: 110 }}>
+      <Text variant="h2" style={{ paddingHorizontal: LATERAL_PADDING }}>
+        Próximos
+      </Text>
       <FlatList
         style={{
           marginTop: 6,
@@ -162,7 +164,7 @@ const NextCards = ({ data }: CardProps) => {
         scrollEnabled={false}
         data={data}
         showsHorizontalScrollIndicator={false}
-        CellRendererComponent={(props) => <View {...props} style={{ paddingVertical: 2 }} />}
+        CellRendererComponent={(props) => <View {...props} style={{ paddingVertical: 4 }} />}
         renderItem={({ index, item }) => renderItem(index, item)}
         keyExtractor={(item) => item.data.id}
       />

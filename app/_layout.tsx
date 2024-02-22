@@ -1,3 +1,4 @@
+import { ActionSheetProvider } from '@expo/react-native-action-sheet';
 import { Feather, Octicons } from '@expo/vector-icons';
 import {
   DarkTheme as DefaultDarkTheme,
@@ -83,26 +84,28 @@ function RootLayoutNav() {
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
-      <UserProvider>
-        <PersonProvider>
-          <SafeAreaProvider>
-            <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : LightTheme}>
-              <Stack>
-                <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-                <Stack.Screen
-                  name="welcome"
-                  options={{
-                    presentation: 'modal',
-                    headerShown: false,
-                  }}
-                />
-              </Stack>
-            </ThemeProvider>
-          </SafeAreaProvider>
-          <StatusBar style="light" />
-        </PersonProvider>
-        <PushNotificationManager />
-      </UserProvider>
+      <ActionSheetProvider>
+        <UserProvider>
+          <PersonProvider>
+            <SafeAreaProvider>
+              <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : LightTheme}>
+                <Stack>
+                  <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+                  <Stack.Screen
+                    name="welcome"
+                    options={{
+                      presentation: 'modal',
+                      headerShown: false,
+                    }}
+                  />
+                </Stack>
+              </ThemeProvider>
+            </SafeAreaProvider>
+            <StatusBar style="light" />
+          </PersonProvider>
+          <PushNotificationManager />
+        </UserProvider>
+      </ActionSheetProvider>
     </GestureHandlerRootView>
   );
 }

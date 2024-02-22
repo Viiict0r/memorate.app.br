@@ -1,9 +1,16 @@
-import { StyleSheet, View, useColorScheme, Text as NativeText, Pressable } from 'react-native';
+import {
+  StyleSheet,
+  View,
+  useColorScheme,
+  Text as NativeText,
+  Pressable,
+  Dimensions,
+} from 'react-native';
 
 import { Avatar } from '../avatar';
 
 import { Text } from '@/components/text';
-import Colors from '@/constants/Colors';
+import Colors, { darker } from '@/constants/Colors';
 import { PersonView } from '@/lib/transform-data';
 
 type Props = {
@@ -35,16 +42,26 @@ export const TodayCard = ({ data }: Props) => {
         styles.container,
       ]}>
       <View style={styles.name_container}>
-        <Avatar src={person?.photo} />
+        <Avatar src={person?.photo || ''} />
         <View>
-          <Text variant="sub1">{person.fullname}</Text>
+          <Text variant="sub1" style={{ color: darker }}>
+            {person.fullname}
+          </Text>
           {age ? (
-            <Text variant="body2">
-              Fazendo <Text variant="body1">{age}</Text> hoje! 🎈
+            <Text variant="body2" style={{ color: darker }}>
+              Fazendo{' '}
+              <Text variant="body1" style={{ color: darker }}>
+                {age}
+              </Text>{' '}
+              hoje! 🎈
             </Text>
           ) : (
-            <Text variant="body2">
-              Fazendo <Text variant="body1">aniversário</Text> hoje! 🎈
+            <Text variant="body2" style={{ color: darker }}>
+              Fazendo{' '}
+              <Text variant="body1" style={{ color: darker }}>
+                aniversário
+              </Text>{' '}
+              hoje! 🎈
             </Text>
           )}
         </View>
@@ -54,8 +71,11 @@ export const TodayCard = ({ data }: Props) => {
       </View>
       <View style={styles.bottom}>
         <View style={{ maxWidth: 180 }}>
-          <Text variant="cap1">
-            Aproveite este dia para desejar um <Text variant="cap0">feliz aniversário!</Text>
+          <Text variant="cap1" style={{ color: darker }}>
+            Aproveite este dia para desejar um{' '}
+            <Text variant="cap0" style={{ color: darker }}>
+              feliz aniversário!
+            </Text>
           </Text>
         </View>
         <Pressable>
@@ -79,11 +99,14 @@ export const TodayCard = ({ data }: Props) => {
   );
 };
 
+const LATERAL_PADDING = 27;
+
 const styles = StyleSheet.create({
   container: {
     borderRadius: 12,
     paddingHorizontal: 12,
     paddingVertical: 12,
+    width: Dimensions.get('screen').width - LATERAL_PADDING * 2,
   },
   name_container: {
     flexDirection: 'row',

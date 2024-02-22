@@ -12,6 +12,8 @@ type Props = {
   topMargin?: number;
 };
 
+const LATERAL_PADDING = 27;
+
 export const MonthDivider = ({ label, topMargin = 12 }: Props) => {
   return (
     <View
@@ -20,6 +22,7 @@ export const MonthDivider = ({ label, topMargin = 12 }: Props) => {
         gap: 12,
         alignItems: 'center',
         marginTop: topMargin,
+        paddingHorizontal: LATERAL_PADDING,
         marginBottom: 9,
       }}>
       <LinearGradient colors={Colors.dark.background_gradient} style={{ height: 1, flex: 1 }} />

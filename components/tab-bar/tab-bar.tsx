@@ -2,22 +2,27 @@ import { Feather } from '@expo/vector-icons';
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
 import { LinearGradient } from 'expo-linear-gradient';
 import { router } from 'expo-router';
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { Platform, Pressable, StyleSheet, useColorScheme } from 'react-native';
 import { initialWindowMetrics } from 'react-native-safe-area-context';
 
-import { AddNewForm } from '../add-new-form';
+import { AddDateForm } from '../add-date-form';
 
-import Colors from '@/constants/Colors';
+import Colors, { grey } from '@/constants/Colors';
 
 export const TabBar = () => {
   const theme = useColorScheme() ?? 'light';
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
+  const [snapPoint, setSnapPoint] = useState('60%');
 
   const navigateToHome = () => router.navigate('/');
   const navigateToSettings = () => router.navigate('settings');
 
   const handleAddPress = () => bottomSheetModalRef.current?.present();
+  const handleSheetClose = () => bottomSheetModalRef.current?.close();
+
+  const handleExpand = () => setSnapPoint('85%');
+  const handleDecrease = () => setSnapPoint('60%');
 
   return (
     <LinearGradient
@@ -45,10 +50,22 @@ export const TabBar = () => {
         containerStyle={{
           backgroundColor: 'rgba(0, 0, 0, 0.5)',
         }}
+        handleIndicatorStyle={{
+          backgroundColor: grey,
+        }}
         ref={bottomSheetModalRef}
         index={1}
-        snapPoints={['25%', '60%']}>
-        <AddNewForm />
+        enablePanDownToClose={false}
+        backgroundStyle={{
+          backgroundColor: Colors[theme].sheet_background,
+        }}
+        snapPoints={[snapPoint, snapPoint]}>
+        <AddDateForm
+          onSuccess={handleSheetClose}
+          onContentExpand={handleExpand}
+          onContentDecrease={handleDecrease}
+          onClose={handleSheetClose}
+        />
       </BottomSheetModal>
     </LinearGradient>
   );

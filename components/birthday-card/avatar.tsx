@@ -2,11 +2,8 @@ import { Image, ImageStyle, StyleProp, StyleSheet, useColorScheme } from 'react-
 
 import Colors from '@/constants/Colors';
 
-const test_url =
-  'https://images.unsplash.com/photo-1599566150163-29194dcaad36?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8YXZhdGFyfGVufDB8fDB8fHww';
-
 type Props = {
-  src?: string; // TODO: Change to string and receive profile url
+  src?: string;
   size?: number;
   styles?: StyleProp<ImageStyle>;
 };
@@ -29,7 +26,7 @@ export const Avatar = ({ src, size = 50, styles: propStyles }: Props) => {
       source={
         src
           ? {
-              uri: test_url,
+              uri: src,
             }
           : require(`../../assets/images/no-photo.png`)
       }

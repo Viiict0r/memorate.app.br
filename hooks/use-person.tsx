@@ -9,6 +9,7 @@ import { Person } from '@/types/person';
 type IPersonContext = {
   data: Person[];
   isLoading: boolean;
+  refetch: () => void;
 };
 
 type PersonProviderProps = {
@@ -22,8 +23,8 @@ export const PersonProvider = ({ children }: PersonProviderProps) => {
   const [isLoading, setLoading] = useState(true);
   const { user, isLogged } = useUser();
 
-  useEffect(() => {
-    if (!isLogged) return;
+  const refetch = () => {
+    setLoading(true);
 
     getPersons(user!.uid)
       .then((data) => {
@@ -36,6 +37,12 @@ export const PersonProvider = ({ children }: PersonProviderProps) => {
         setLoading(false);
       })
       .catch(() => Alert.alert('Erro', 'Falha ao carregar as informações'));
+  };
+
+  useEffect(() => {
+    if (!isLogged) return;
+
+    refetch();
   }, [user, isLogged]);
 
   return (
@@ -43,6 +50,7 @@ export const PersonProvider = ({ children }: PersonProviderProps) => {
       value={{
         data,
         isLoading,
+        refetch,
       }}>
       {children}
     </PersonContext.Provider>

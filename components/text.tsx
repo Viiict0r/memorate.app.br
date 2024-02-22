@@ -24,7 +24,7 @@ const variants = {
   h3: (props: TextProps) => <TextMedium {...props} size={20} />,
   sub1: (props: TextProps) => <TextSemiBold {...props} size={14} lineHeight={20} />,
   sub2: (props: TextProps) => <TextRegular {...props} size={14} lineHeight={20} />,
-  body1: (props: TextProps) => <TextMedium {...props} size={12} />,
+  body1: (props: TextProps) => <TextMedium {...props} size={12} lineHeight={16} />,
   body2: (props: TextProps) => <TextLight {...props} size={12} />,
   button1: (props: TextProps) => <TextMedium {...props} size={14} />,
   cap0: (props: TextProps) => <TextSemiBold {...props} size={12} />,

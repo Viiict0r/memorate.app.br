@@ -3,7 +3,7 @@ import { StyleSheet, View, useColorScheme, Pressable } from 'react-native';
 import { Avatar } from '../avatar';
 
 import { Text } from '@/components/text';
-import Colors, { darker } from '@/constants/Colors';
+import Colors from '@/constants/Colors';
 import { PersonView } from '@/lib/transform-data';
 import { firstName } from '@/utils/first-name';
 
@@ -37,22 +37,40 @@ export const RecentCard = ({ data }: Props) => {
       ]}>
       <View style={styles.name_container}>
         <Avatar
-          src={person?.photo}
+          src={person?.photo || ''}
           size={32}
           styles={{
-            borderColor: darker,
+            borderColor: Colors[theme].birthday_card.recent.text,
           }}
         />
         <View>
-          <Text variant="sub1">
-            {firstName(person.fullname)} • <Text variant="cap2">{getDescription()}</Text>
+          <Text
+            variant="sub1"
+            lightColor={Colors[theme].birthday_card.recent.text}
+            darkColor={Colors[theme].birthday_card.recent.text}>
+            {firstName(person.fullname)} •{' '}
+            <Text
+              variant="cap2"
+              lightColor={Colors[theme].birthday_card.recent.text}
+              darkColor={Colors[theme].birthday_card.recent.text}>
+              {getDescription()}
+            </Text>
           </Text>
         </View>
       </View>
       <View style={styles.bottom}>
         <View style={{ maxWidth: 185 }}>
-          <Text variant="cap1">
-            Ainda há tempo para desejar um <Text variant="cap0">feliz aniversário atrasado!</Text>
+          <Text
+            variant="cap1"
+            lightColor={Colors[theme].birthday_card.recent.text}
+            darkColor={Colors[theme].birthday_card.recent.text}>
+            Ainda há tempo para desejar um{' '}
+            <Text
+              variant="cap0"
+              lightColor={Colors[theme].birthday_card.recent.text}
+              darkColor={Colors[theme].birthday_card.recent.text}>
+              feliz aniversário atrasado!
+            </Text>
           </Text>
         </View>
         <Pressable>
@@ -60,7 +78,7 @@ export const RecentCard = ({ data }: Props) => {
             <View
               style={[
                 {
-                  borderColor: Colors[theme].birthday_card.today.btn_background,
+                  borderColor: Colors[theme].birthday_card.recent.text,
                   opacity: pressed ? 0.8 : 1,
                 },
                 styles.send_msg_btn,
@@ -68,7 +86,7 @@ export const RecentCard = ({ data }: Props) => {
               <Text
                 variant="cap4"
                 style={{
-                  color: Colors[theme].birthday_card.today.btn_background,
+                  color: Colors[theme].birthday_card.recent.text,
                 }}>
                 Mensagem 🤭
               </Text>
