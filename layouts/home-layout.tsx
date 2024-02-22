@@ -1,16 +1,21 @@
 import { Octicons } from '@expo/vector-icons';
 import MaskedView from '@react-native-masked-view/masked-view';
 import { LinearGradient } from 'expo-linear-gradient';
-import { Image, Pressable, StyleSheet, View, useColorScheme } from 'react-native';
+import { router } from 'expo-router';
+import { Image, Pressable, StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { TextMedium } from '@/components/styled-text';
 import { View as ThemedView } from '@/components/themed';
 import Colors from '@/constants/Colors';
+import { useTheme } from '@/hooks/use-theme';
+import { horizontalScale, moderateScale, verticalScale } from '@/utils/metrics';
 
 const Header = () => {
-  const theme = useColorScheme() || 'light';
+  const { theme } = useTheme();
   const insets = useSafeAreaInsets();
+
+  const openSettingsScreen = () => router.navigate('settings');
 
   return (
     <LinearGradient
@@ -27,6 +32,7 @@ const Header = () => {
           style={{
             flexDirection: 'row',
             gap: 10,
+            alignItems: 'center',
           }}>
           <Pressable>
             {({ pressed }) => (
@@ -34,18 +40,18 @@ const Header = () => {
                 <MaskedView
                   maskElement={
                     <View style={styles.header__mask_view}>
-                      <Octicons name="star-fill" size={10} />
+                      <Octicons name="star-fill" size={moderateScale(10)} />
                     </View>
                   }>
                   <LinearGradient style={{ flex: 1 }} colors={Colors.dark.background_gradient}>
-                    <Octicons name="star-fill" size={10} />
+                    <Octicons name="star-fill" size={moderateScale(10)} />
                   </LinearGradient>
                 </MaskedView>
                 <MaskedView
-                  maskElement={<TextMedium size={12}>Premium</TextMedium>}
+                  maskElement={<TextMedium size={moderateScale(12)}>Premium</TextMedium>}
                   style={{ marginBottom: -1 }}>
                   <LinearGradient colors={Colors.dark.background_gradient}>
-                    <TextMedium style={{ color: 'transparent' }} size={12}>
+                    <TextMedium style={{ color: 'transparent' }} size={moderateScale(12)}>
                       Premium
                     </TextMedium>
                   </LinearGradient>
@@ -53,10 +59,10 @@ const Header = () => {
               </View>
             )}
           </Pressable>
-          <Pressable>
+          <Pressable onPress={openSettingsScreen}>
             {({ pressed }) => (
               <View style={[{ opacity: pressed ? 0.6 : 1 }, styles.header__settings_btn]}>
-                <Octicons name="gear" size={16} color="#fff" />
+                <Octicons name="gear" size={moderateScale(16)} color="#fff" />
               </View>
             )}
           </Pressable>
@@ -86,7 +92,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   gradient_wrapper: {
-    height: 150,
+    height: verticalScale(150),
     zIndex: 0,
   },
   content__bg: {
@@ -99,15 +105,16 @@ const styles = StyleSheet.create({
   header: {
     justifyContent: 'space-between',
     alignItems: 'center',
-    paddingBottom: 20,
+    paddingBottom: verticalScale(20),
     paddingHorizontal: LATERAL_PADDING,
     flexDirection: 'row',
     gap: 10,
     flex: 1,
   },
   header__logo: {
-    height: 22,
-    width: 156,
+    // height: 22,
+    width: moderateScale(156),
+    objectFit: 'contain',
   },
   header__mask_view: {
     backgroundColor: 'transparent',
@@ -120,19 +127,19 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     borderWidth: 1,
     borderRadius: 99,
-    height: 30,
+    height: moderateScale(30),
     justifyContent: 'center',
     alignItems: 'center',
     flexDirection: 'row',
     gap: 5,
-    paddingHorizontal: 12,
+    paddingHorizontal: horizontalScale(12),
   },
   header__settings_btn: {
     borderColor: '#fff',
     borderWidth: 1,
     borderRadius: 99,
-    width: 30,
-    height: 30,
+    width: moderateScale(30),
+    height: moderateScale(30),
     justifyContent: 'center',
     alignItems: 'center',
   },

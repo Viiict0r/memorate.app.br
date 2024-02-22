@@ -1,11 +1,12 @@
 import React, { useEffect, useMemo } from 'react';
 import { useFormContext, Controller } from 'react-hook-form';
-import { StyleSheet, View, useColorScheme } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { Picker } from 'react-native-wheel-pick';
 
 import { months } from './months';
 
 import Colors from '@/constants/Colors';
+import { useTheme } from '@/hooks/use-theme';
 
 const days = Array.from(Array(31).keys()).map((day) => day + 1);
 
@@ -15,7 +16,7 @@ type Props = {
 
 export const DatePicker = ({ showYear }: Props) => {
   const { control, setValue, getValues } = useFormContext();
-  const theme = useColorScheme() || 'light';
+  const { theme } = useTheme();
 
   const years = useMemo(() => {
     const y = [];

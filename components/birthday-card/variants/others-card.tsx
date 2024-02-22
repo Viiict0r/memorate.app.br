@@ -5,6 +5,7 @@ import Swipeable from 'react-native-gesture-handler/Swipeable';
 import { Text } from '@/components/text';
 import { darkgrey, grey, grey3, red } from '@/constants/Colors';
 import { PersonView } from '@/lib/transform-data';
+import { horizontalScale, verticalScale } from '@/utils/metrics';
 import { parseMonth } from '@/utils/month-parser';
 
 type Props = {
@@ -20,7 +21,7 @@ export const OthersCard = ({ data, highlighted }: Props) => {
   const getDescription = () => {
     const { birthday } = data.data;
 
-    if (birthday.year) {
+    if (birthday.year && birthday.year < new Date().getFullYear()) {
       const age = new Date().getFullYear() - birthday.year;
 
       if (data.daysLeft <= 20) {
@@ -93,10 +94,10 @@ export const OthersCard = ({ data, highlighted }: Props) => {
         <View
           style={{
             padding: 1,
-            borderRadius: 99,
+            borderRadius: 999,
             overflow: 'hidden',
-            width: 44,
-            height: 44,
+            width: verticalScale(44),
+            height: verticalScale(44),
             borderWidth: 2,
             borderColor: highlighted ? grey : grey3,
           }}>
@@ -104,7 +105,7 @@ export const OthersCard = ({ data, highlighted }: Props) => {
             style={{
               width: '100%',
               height: '100%',
-              borderRadius: 99,
+              borderRadius: 999,
             }}
             source={
               data.data.photo
@@ -147,7 +148,7 @@ const styles = StyleSheet.create({
   date: {
     flexDirection: 'column',
     alignItems: 'flex-start',
-    width: 28,
+    width: horizontalScale(28),
   },
   name: {
     flexDirection: 'column',

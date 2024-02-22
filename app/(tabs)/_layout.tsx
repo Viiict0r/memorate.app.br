@@ -9,7 +9,6 @@ export default function TabLayout() {
     <BottomSheetModalProvider>
       <Tabs tabBar={(props) => <TabBar />}>
         <Tabs.Screen name="index" options={{ headerShown: false }} />
-        <Tabs.Screen name="settings" options={{ headerShown: false }} />
       </Tabs>
     </BottomSheetModalProvider>
   );

@@ -3,16 +3,7 @@ import { Feather } from '@expo/vector-icons';
 import { BottomSheetScrollView } from '@gorhom/bottom-sheet';
 import React, { useEffect, useState } from 'react';
 import { FormProvider, useForm, Controller } from 'react-hook-form';
-import {
-  Alert,
-  Image,
-  Platform,
-  StyleSheet,
-  Switch,
-  TextInput,
-  View,
-  useColorScheme,
-} from 'react-native';
+import { Alert, Image, Platform, StyleSheet, Switch, TextInput, View } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { initialWindowMetrics } from 'react-native-safe-area-context';
 
@@ -24,6 +15,7 @@ import { Text } from '../text';
 
 import Colors, { darkgrey, grey, lighter, red } from '@/constants/Colors';
 import { usePerson } from '@/hooks/use-person';
+import { useTheme } from '@/hooks/use-theme';
 import { useUser } from '@/hooks/use-user';
 import { addPerson } from '@/lib/firebase';
 import { makePerson } from '@/types/person';
@@ -91,7 +83,7 @@ export const AddDateForm = ({ onContentDecrease, onContentExpand, onSuccess, onC
   const { showActionSheetWithOptions } = useActionSheet();
   const { user } = useUser();
   const { refetch } = usePerson();
-  const theme = useColorScheme() || 'light';
+  const { theme } = useTheme();
   const methods = useForm<FormData>({
     defaultValues: {
       day: undefined,
@@ -154,7 +146,7 @@ export const AddDateForm = ({ onContentDecrease, onContentExpand, onSuccess, onC
         user!.uid,
         makePerson({
           fullname: name,
-          photo: data.photo,
+          photo: data.photo || null,
           birthday: {
             day: Number(day),
             month: months.indexOf(month),

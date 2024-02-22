@@ -1,22 +1,20 @@
 import { Feather } from '@expo/vector-icons';
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
 import { LinearGradient } from 'expo-linear-gradient';
-import { router } from 'expo-router';
 import { useRef, useState } from 'react';
-import { Platform, Pressable, StyleSheet, useColorScheme } from 'react-native';
+import { Platform, Pressable, StyleSheet } from 'react-native';
 import { initialWindowMetrics } from 'react-native-safe-area-context';
 
 import { AddDateForm } from '../add-date-form';
 
 import Colors, { grey } from '@/constants/Colors';
+import { useTheme } from '@/hooks/use-theme';
+import { moderateScale, verticalScale } from '@/utils/metrics';
 
 export const TabBar = () => {
-  const theme = useColorScheme() ?? 'light';
+  const { theme } = useTheme();
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
   const [snapPoint, setSnapPoint] = useState('60%');
-
-  const navigateToHome = () => router.navigate('/');
-  const navigateToSettings = () => router.navigate('settings');
 
   const handleAddPress = () => bottomSheetModalRef.current?.present();
   const handleSheetClose = () => bottomSheetModalRef.current?.close();
@@ -42,7 +40,7 @@ export const TabBar = () => {
               ...styles.add_btn,
               opacity: pressed ? 0.8 : 1,
             }}>
-            <Feather name="plus" color="#fff" size={28} />
+            <Feather name="plus" color="#fff" size={moderateScale(28, 0.3)} />
           </LinearGradient>
         )}
       </Pressable>
@@ -76,7 +74,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     width: `${100}%`,
     bottom: 0,
-    paddingBottom: (initialWindowMetrics?.insets.bottom || 0) + 20,
+    paddingBottom: (initialWindowMetrics?.insets.bottom || 0) + verticalScale(20),
     alignItems: 'center',
     backgroundColor: 'transparent',
   },
@@ -84,15 +82,15 @@ const styles = StyleSheet.create({
     position: 'absolute',
     width: `${100}%`,
     bottom: 0,
-    height: 80,
+    height: verticalScale(80),
     paddingBottom: initialWindowMetrics?.insets.bottom || 0,
     alignItems: 'center',
     backgroundColor: 'transparent',
     overflow: 'visible',
   },
   add_btn: {
-    width: 55,
-    height: 55,
+    width: moderateScale(55),
+    height: moderateScale(55),
     borderRadius: 999,
     alignSelf: 'center',
     position: 'absolute',

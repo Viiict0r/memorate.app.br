@@ -1,6 +1,8 @@
-import { Image, ImageStyle, StyleProp, StyleSheet, useColorScheme } from 'react-native';
+import { Image, ImageStyle, StyleProp, StyleSheet } from 'react-native';
 
 import Colors from '@/constants/Colors';
+import { useTheme } from '@/hooks/use-theme';
+import { moderateScale } from '@/utils/metrics';
 
 type Props = {
   src?: string;
@@ -8,8 +10,8 @@ type Props = {
   styles?: StyleProp<ImageStyle>;
 };
 
-export const Avatar = ({ src, size = 50, styles: propStyles }: Props) => {
-  const theme = useColorScheme() ?? 'light';
+export const Avatar = ({ src, size = moderateScale(50), styles: propStyles }: Props) => {
+  const { theme } = useTheme();
 
   const styles = AvatarStyles(theme);
 
@@ -42,9 +44,9 @@ const AvatarStyles = (theme: 'dark' | 'light') =>
       borderColor: '#fff',
     },
     placeholder: {
-      height: 50,
-      width: 50,
-      borderRadius: 50,
+      height: moderateScale(50),
+      width: moderateScale(50),
+      borderRadius: moderateScale(50),
       borderWidth: 2,
       borderColor: Colors[theme].avatar_placeholder.border,
       backgroundColor: Colors[theme].avatar_placeholder.background,

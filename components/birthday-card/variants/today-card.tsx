@@ -1,24 +1,19 @@
-import {
-  StyleSheet,
-  View,
-  useColorScheme,
-  Text as NativeText,
-  Pressable,
-  Dimensions,
-} from 'react-native';
+import { StyleSheet, View, Text as NativeText, Pressable, Dimensions } from 'react-native';
 
 import { Avatar } from '../avatar';
 
 import { Text } from '@/components/text';
 import Colors, { darker } from '@/constants/Colors';
+import { useTheme } from '@/hooks/use-theme';
 import { PersonView } from '@/lib/transform-data';
+import { horizontalScale, moderateScale, verticalScale } from '@/utils/metrics';
 
 type Props = {
   data: PersonView;
 };
 
 export const TodayCard = ({ data }: Props) => {
-  const theme = useColorScheme() || 'light';
+  const { theme } = useTheme();
   const person = data.data;
 
   const getAge = () => {
@@ -66,11 +61,11 @@ export const TodayCard = ({ data }: Props) => {
           )}
         </View>
         <View style={{ flex: 1, alignItems: 'flex-end' }}>
-          <NativeText style={{ fontSize: 22 }}>🎉</NativeText>
+          <NativeText style={{ fontSize: moderateScale(22) }}>🎉</NativeText>
         </View>
       </View>
       <View style={styles.bottom}>
-        <View style={{ maxWidth: 180 }}>
+        <View style={{ maxWidth: horizontalScale(180) }}>
           <Text variant="cap1" style={{ color: darker }}>
             Aproveite este dia para desejar um{' '}
             <Text variant="cap0" style={{ color: darker }}>
@@ -104,8 +99,8 @@ const LATERAL_PADDING = 27;
 const styles = StyleSheet.create({
   container: {
     borderRadius: 12,
-    paddingHorizontal: 12,
-    paddingVertical: 12,
+    paddingHorizontal: horizontalScale(12),
+    paddingVertical: verticalScale(12),
     width: Dimensions.get('screen').width - LATERAL_PADDING * 2,
   },
   name_container: {
@@ -124,7 +119,7 @@ const styles = StyleSheet.create({
     borderRadius: 48,
     alignItems: 'center',
     justifyContent: 'center',
-    paddingHorizontal: 12,
-    paddingVertical: 8,
+    paddingHorizontal: horizontalScale(12),
+    paddingVertical: verticalScale(8),
   },
 });

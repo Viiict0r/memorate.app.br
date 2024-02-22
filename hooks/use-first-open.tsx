@@ -8,8 +8,6 @@ export const useFirstOpen = (onFirstOpen: () => void) => {
         if (value !== 'no') {
           // is first open
           onFirstOpen();
-
-          AsyncStorage.setItem('is-first-open', 'no');
         }
       })
       .catch(() => {

@@ -1,9 +1,10 @@
-import { StyleSheet, View, useColorScheme, Pressable } from 'react-native';
+import { StyleSheet, View, Pressable } from 'react-native';
 
 import { Avatar } from '../avatar';
 
 import { Text } from '@/components/text';
 import Colors from '@/constants/Colors';
+import { useTheme } from '@/hooks/use-theme';
 import { PersonView } from '@/lib/transform-data';
 import { firstName } from '@/utils/first-name';
 
@@ -12,7 +13,7 @@ type Props = {
 };
 
 export const RecentCard = ({ data }: Props) => {
-  const theme = useColorScheme() || 'light';
+  const { theme } = useTheme();
   const person = data.data;
 
   const getDescription = () => {

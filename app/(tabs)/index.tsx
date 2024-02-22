@@ -12,6 +12,7 @@ import { usePerson } from '@/hooks/use-person';
 import { HomeLayout } from '@/layouts/home-layout';
 import { PersonView, transformToView } from '@/lib/transform-data';
 import { Person } from '@/types/person';
+import { horizontalScale, verticalScale } from '@/utils/metrics';
 import { parseFullMonth } from '@/utils/month-parser';
 
 const LATERAL_PADDING = 27;
@@ -21,10 +22,10 @@ type CardProps = {
 };
 
 const TodayCards = ({ data }: CardProps) => (
-  <View style={{ paddingHorizontal: LATERAL_PADDING, marginTop: 16 + 8 }}>
+  <View style={{ paddingHorizontal: LATERAL_PADDING, marginTop: verticalScale(16 + 8) }}>
     <Text variant="h2">Hoje</Text>
     {!data.length && (
-      <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 8 }}>
+      <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: verticalScale(8) }}>
         <Text variant="sub2" lightColor={grey} darkColor={darkgrey}>
           Sem aniversários hoje 😔
         </Text>
@@ -35,7 +36,7 @@ const TodayCards = ({ data }: CardProps) => (
       <FlatList
         style={{
           marginHorizontal: -27,
-          marginTop: 8,
+          marginTop: verticalScale(8),
         }}
         horizontal
         contentContainerStyle={{
@@ -44,7 +45,9 @@ const TodayCards = ({ data }: CardProps) => (
         nestedScrollEnabled
         data={data}
         showsHorizontalScrollIndicator={false}
-        CellRendererComponent={(props) => <View {...props} style={{ paddingHorizontal: 4 }} />}
+        CellRendererComponent={(props) => (
+          <View {...props} style={{ paddingHorizontal: horizontalScale(4) }} />
+        )}
         renderItem={({ item }) => <BirthdayCard key={item.data.id} data={item} variant="today" />}
         keyExtractor={(item) => item.data.id}
       />
@@ -53,17 +56,17 @@ const TodayCards = ({ data }: CardProps) => (
 );
 
 const RecentCards = ({ data }: CardProps) => (
-  <View style={{ marginTop: 16, paddingHorizontal: LATERAL_PADDING }}>
+  <View style={{ marginTop: verticalScale(16), paddingHorizontal: LATERAL_PADDING }}>
     <Text variant="h2">Recentes</Text>
     {!data.length && (
-      <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 8 }}>
+      <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: verticalScale(8) }}>
         <Text
           variant="sub2"
           lightColor={grey}
           darkColor={darkgrey}
           style={{
             textAlign: 'center',
-            maxWidth: 205,
+            maxWidth: horizontalScale(205),
           }}>
           Já passaram uns dias desde o último aniversário. 🤔
         </Text>
@@ -73,12 +76,14 @@ const RecentCards = ({ data }: CardProps) => (
     {!!data.length && (
       <FlatList
         style={{
-          marginTop: 6,
+          marginTop: verticalScale(6),
         }}
         scrollEnabled={false}
         data={data}
         showsHorizontalScrollIndicator={false}
-        CellRendererComponent={(props) => <View {...props} style={{ paddingVertical: 2 }} />}
+        CellRendererComponent={(props) => (
+          <View {...props} style={{ paddingVertical: verticalScale(2) }} />
+        )}
         renderItem={({ item }) => <BirthdayCard key={item.data.id} data={item} variant="recent" />}
         keyExtractor={(item) => item.data.id}
       />
@@ -100,6 +105,7 @@ const NextCards = ({ data }: CardProps) => {
 
   const renderItem = (index: number, item: PersonView) => {
     const { birthday } = item.data;
+    let hasPreviusSeparator = false; // Indica se já renderizou algum divider
     const previusItem = data[index - 1];
     const previusIsOnNextYear = previusItem ? isBirthdayNextYear(previusItem.data) : false;
     const isOnNextYear = isBirthdayNextYear(item.data);
@@ -117,6 +123,9 @@ const NextCards = ({ data }: CardProps) => {
 
     /** Renders next year separator */
     if (isOnNextYear && !previusIsOnNextYear) {
+      if (!hasPreviusSeparator) {
+        hasPreviusSeparator = true;
+      }
       return (
         <>
           <MonthDivider
@@ -129,6 +138,10 @@ const NextCards = ({ data }: CardProps) => {
     }
 
     if (isPastMoreThanThreeMonths && !isPreviusPastMoreThreeMonths && !!previusItem) {
+      if (!hasPreviusSeparator) {
+        hasPreviusSeparator = true;
+      }
+
       return (
         <>
           <MonthDivider label="PRÓXIMOS MESES" topMargin={previusItem ? undefined : 0} />
@@ -138,6 +151,10 @@ const NextCards = ({ data }: CardProps) => {
     }
 
     if (isOnNextMonth && isPreviusOnLastMonth && !isPastMoreThanThreeMonths) {
+      if (!hasPreviusSeparator) {
+        hasPreviusSeparator = true;
+      }
+
       return (
         <>
           <MonthDivider
@@ -149,17 +166,17 @@ const NextCards = ({ data }: CardProps) => {
       );
     }
 
-    return <BirthdayCard data={item} variant="others" />;
+    return <BirthdayCard data={item} variant="others" highlighted={!hasPreviusSeparator} />;
   };
 
   return (
-    <View style={{ marginTop: 16, paddingBottom: 110 }}>
+    <View style={{ marginTop: verticalScale(16), paddingBottom: verticalScale(110) }}>
       <Text variant="h2" style={{ paddingHorizontal: LATERAL_PADDING }}>
         Próximos
       </Text>
       <FlatList
         style={{
-          marginTop: 6,
+          marginTop: verticalScale(6),
         }}
         scrollEnabled={false}
         data={data}
@@ -175,9 +192,9 @@ const NextCards = ({ data }: CardProps) => {
 export default function HomeScreen() {
   const { data, isLoading } = usePerson();
 
-  const transformed = transformToView(data);
   const openWelcomeScreen = () => router.navigate('welcome');
 
+  const transformed = transformToView(data);
   const isEmpty = data.length === 0;
 
   useFirstOpen(() => {
@@ -200,7 +217,7 @@ export default function HomeScreen() {
         {isEmpty && !isLoading && (
           <View
             style={{
-              maxWidth: 212,
+              maxWidth: horizontalScale(212),
               flex: 1,
               paddingTop: '50%',
               alignItems: 'center',

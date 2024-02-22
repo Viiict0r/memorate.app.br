@@ -1,18 +1,24 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import MaskedView from '@react-native-masked-view/masked-view';
 import { LinearGradient } from 'expo-linear-gradient';
 import { router } from 'expo-router';
-import { Image, StyleSheet, View, useColorScheme } from 'react-native';
+import { Image, StyleSheet, View } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { initialWindowMetrics } from 'react-native-safe-area-context';
 
 import { Text } from '@/components/text';
 import Colors, { darker, lighter } from '@/constants/Colors';
+import { useTheme } from '@/hooks/use-theme';
 import { horizontalScale, verticalScale } from '@/utils/metrics';
 
 export default function ModalScreen() {
-  const theme = useColorScheme() || 'light';
+  const { theme } = useTheme();
 
-  const goToHome = () => router.navigate('/');
+  const startNow = async () => {
+    await AsyncStorage.setItem('is-first-open', 'no');
+
+    router.navigate('/');
+  };
 
   return (
     <View style={styles.container}>
@@ -21,6 +27,7 @@ export default function ModalScreen() {
           style={{
             objectFit: 'cover',
             flex: 1,
+            width: '100%',
           }}
           source={require('../assets/images/welcome.png')}
         />
@@ -61,7 +68,7 @@ export default function ModalScreen() {
         </View>
         <TouchableOpacity
           activeOpacity={0.6}
-          onPress={goToHome}
+          onPress={startNow}
           style={{
             backgroundColor: theme === 'light' ? darker : lighter,
             paddingVertical: 14,
@@ -87,7 +94,7 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingHorizontal: horizontalScale(36),
     paddingTop: verticalScale(32),
-    paddingBottom: initialWindowMetrics?.insets.bottom || 0,
+    paddingBottom: (initialWindowMetrics?.insets.bottom || 0) + verticalScale(32),
   },
   features: {
     flex: 1,
