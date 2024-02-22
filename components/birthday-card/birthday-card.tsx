@@ -7,6 +7,7 @@ import { PersonView } from '@/lib/transform-data';
 type Props = {
   data: PersonView;
   variant: 'today' | 'recent' | 'others';
+  highlighted?: boolean;
 };
 
 const variants = {
@@ -15,8 +16,8 @@ const variants = {
   others: OthersCard,
 };
 
-export const BirthdayCard = ({ data, variant }: Props) => {
+export const BirthdayCard = ({ data, variant, highlighted = false }: Props) => {
   const Component = variants[variant];
 
-  return <Component data={data} />;
+  return <Component data={data} highlighted={highlighted} />;
 };

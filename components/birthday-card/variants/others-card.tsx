@@ -9,11 +9,12 @@ import { parseMonth } from '@/utils/month-parser';
 
 type Props = {
   data: PersonView;
+  highlighted: boolean;
 };
 
 const LATERAL_PADDING = 27;
 
-export const OthersCard = ({ data }: Props) => {
+export const OthersCard = ({ data, highlighted }: Props) => {
   const person = data.data;
 
   const getDescription = () => {
@@ -82,10 +83,10 @@ export const OthersCard = ({ data }: Props) => {
     <Swipeable overshootLeft={false} overshootRight={false} renderRightActions={renderActions}>
       <View style={styles.container}>
         <View style={styles.date}>
-          <Text variant="sub1" lightColor={grey3} darkColor={grey3}>
+          <Text variant="sub1" lightColor={grey3} darkColor={highlighted ? grey : grey3}>
             {String(person.birthday.day).padStart(2, '0')}
           </Text>
-          <Text variant="body1" lightColor={grey3} darkColor={grey3}>
+          <Text variant="body1" lightColor={grey3} darkColor={highlighted ? grey : grey3}>
             {parseMonth(person.birthday.month)}
           </Text>
         </View>
@@ -97,7 +98,7 @@ export const OthersCard = ({ data }: Props) => {
             width: 44,
             height: 44,
             borderWidth: 2,
-            borderColor: grey3,
+            borderColor: highlighted ? grey : grey3,
           }}>
           <Image
             style={{
@@ -129,7 +130,7 @@ export const OthersCard = ({ data }: Props) => {
           <Text
             variant="body1"
             lightColor={grey3}
-            darkColor={grey3}>{`dia${data.daysLeft > 1 ? 's' : ''}`}</Text>
+            darkColor={highlighted ? darkgrey : grey3}>{`dia${data.daysLeft > 1 ? 's' : ''}`}</Text>
         </View>
       </View>
     </Swipeable>

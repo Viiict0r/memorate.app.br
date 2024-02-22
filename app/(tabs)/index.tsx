@@ -111,8 +111,8 @@ const NextCards = ({ data }: CardProps) => {
       ? previusItem.data.birthday.month !== birthday.month
       : false;
 
-    if (isInThisMonth) {
-      return <BirthdayCard data={item} variant="others" />;
+    if (isInThisMonth && !isOnNextYear) {
+      return <BirthdayCard data={item} variant="others" highlighted />;
     }
 
     /** Renders next year separator */
