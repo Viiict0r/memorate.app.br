@@ -1,4 +1,4 @@
-import { differenceInDays, setHours, setMinutes, setSeconds, setYear } from 'date-fns';
+import { differenceInDays, endOfDay } from 'date-fns';
 
 import { Person } from '@/types/person';
 
@@ -21,24 +21,17 @@ type Result = {
 // se o mes for maior, ainda nao passou
 
 function getBirthdayDate(person: Person) {
-  const todayDate = new Date();
   const birthdayDate = new Date(
     new Date().getFullYear(),
     person.birthday.month,
     person.birthday.day,
   );
-  setHours(birthdayDate, todayDate.getHours());
-  setMinutes(birthdayDate, todayDate.getMinutes() + 1);
-  setSeconds(birthdayDate, todayDate.getSeconds());
 
-  return birthdayDate;
+  return endOfDay(birthdayDate);
 }
 
 export function transformToView(data: Person[]): Result {
-  const todayDate = new Date();
-  // setHours(todayDate, 0);
-  // setMinutes(todayDate, 0);
-  // setSeconds(todayDate, 0);
+  const todayDate = endOfDay(new Date());
 
   const today: PersonView[] = data
     .filter((value) => {
