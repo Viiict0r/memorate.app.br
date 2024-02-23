@@ -8,6 +8,7 @@ import { Text } from '@/components/text';
 import { View as ThemedView } from '@/components/themed';
 import Colors, { lighter } from '@/constants/Colors';
 import { useTheme } from '@/hooks/use-theme';
+import { verticalScale } from '@/utils/metrics';
 
 const Header = () => {
   const { theme } = useTheme();
@@ -63,7 +64,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   gradient_wrapper: {
-    height: 150,
+    height: verticalScale(160),
     zIndex: 0,
   },
   content__bg: {

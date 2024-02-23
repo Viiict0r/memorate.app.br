@@ -2,6 +2,7 @@ import uuid from 'react-native-uuid';
 
 export type Person = {
   id: string;
+  doc_id: string;
   fullname: string;
   photo?: string | null;
   options: {
@@ -20,4 +21,5 @@ export const makePerson = (
 ): Person => ({
   ...data,
   id: String(uuid.v4()),
+  doc_id: '',
 });

@@ -3,7 +3,16 @@ import { Feather } from '@expo/vector-icons';
 import { BottomSheetScrollView } from '@gorhom/bottom-sheet';
 import React, { useEffect, useState } from 'react';
 import { FormProvider, useForm, Controller } from 'react-hook-form';
-import { Alert, Image, Platform, StyleSheet, Switch, TextInput, View } from 'react-native';
+import {
+  Alert,
+  Image,
+  Keyboard,
+  Platform,
+  StyleSheet,
+  Switch,
+  TextInput,
+  View,
+} from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { initialWindowMetrics } from 'react-native-safe-area-context';
 
@@ -233,6 +242,20 @@ export const AddDateForm = ({ onContentDecrease, onContentExpand, onSuccess, onC
     }
   }, [isBirthdayPickerVisible]);
 
+  useEffect(() => {
+    const showSubscription = Keyboard.addListener('keyboardWillShow', () => {
+      onContentExpand();
+    });
+    const hideSubscription = Keyboard.addListener('keyboardWillHide', () => {
+      if (!isBirthdayPickerVisible) onContentDecrease();
+    });
+
+    return () => {
+      showSubscription.remove();
+      hideSubscription.remove();
+    };
+  }, [isBirthdayPickerVisible]);
+
   return (
     <FormProvider {...methods}>
       <View style={styles.wrapper}>
@@ -359,15 +382,19 @@ export const AddDateForm = ({ onContentDecrease, onContentExpand, onSuccess, onC
             </View>
             <View
               onTouchStart={() =>
-                Alert.alert('voce é pobre', 'compra o premium ai pobre', [
-                  {
-                    text: 'Obtenha o Premium',
-                    isPreferred: true,
-                  },
-                  {
-                    text: 'Voltar',
-                  },
-                ])
+                Alert.alert(
+                  'Premium Necessário',
+                  'Para receber notificações por e-mail, adquira o premium',
+                  [
+                    {
+                      text: 'Obtenha o Premium',
+                      isPreferred: true,
+                    },
+                    {
+                      text: 'Voltar',
+                    },
+                  ],
+                )
               }>
               <Controller
                 name="email_notifications"

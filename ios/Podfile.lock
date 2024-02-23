@@ -752,7 +752,7 @@ PODS:
     - RCT-Folly (= 2022.05.16.00)
     - React-Core
   - EXStructuredHeaders (3.7.2)
-  - EXUpdates (0.24.10):
+  - EXUpdates (0.24.11):
     - EASClient
     - EXManifests
     - ExpoModulesCore
@@ -2310,7 +2310,7 @@ SPEC CHECKSUMS:
   ExpoWebBrowser: e31c97230ea93b51a2a74c6c2381b0d4fca5698c
   EXSplashScreen: e12df5ed7e7880913a3e4bad91ba252596993b90
   EXStructuredHeaders: 5b0f47259db047dc1fdfa84752e292c2bfa68ecd
-  EXUpdates: f23be6de81d1c0ca07ef03995c253efe46abaa52
+  EXUpdates: 4942cdbc070421b2c07918a86f3ad3ff51be24b3
   EXUpdatesInterface: 3e444e2093e25b7ca0999a7d8c16e8392dee70c3
   FBLazyVector: fbc4957d9aa695250b55d879c1d86f79d7e69ab4
   FBReactNativeSpec: 86de768f89901ef6ed3207cd686362189d64ac88

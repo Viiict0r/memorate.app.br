@@ -92,7 +92,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   gradient_wrapper: {
-    height: verticalScale(150),
+    height: verticalScale(160),
     zIndex: 0,
   },
   content__bg: {
@@ -100,7 +100,7 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 32,
     borderTopRightRadius: 32,
     overflow: 'hidden',
-    marginTop: -28,
+    marginTop: verticalScale(32) * -1,
   },
   header: {
     justifyContent: 'space-between',
@@ -113,7 +113,7 @@ const styles = StyleSheet.create({
   },
   header__logo: {
     // height: 22,
-    width: moderateScale(156),
+    width: moderateScale(142),
     objectFit: 'contain',
   },
   header__mask_view: {

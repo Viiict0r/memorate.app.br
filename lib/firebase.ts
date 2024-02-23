@@ -6,11 +6,16 @@ export async function addPerson(user_id: string, data: Person) {
   await firestore().doc(`persons/${user_id}`).collection('data').add(data);
 }
 
+export async function deletePerson(user_id: string, doc_id: string) {
+  await firestore().doc(`persons/${user_id}`).collection('data').doc(doc_id).delete();
+}
+
 export async function getPersons(user_id: string): Promise<Person[] | null> {
   try {
     const data = await firestore().doc(`persons/${user_id}`).collection('data').get();
     const result: Person[] = data.docs.map((doc) => ({
       id: doc.data().id,
+      doc_id: doc.id,
       fullname: doc.data().fullname,
       photo: doc.data()?.photo,
       birthday: {

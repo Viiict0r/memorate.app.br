@@ -174,17 +174,36 @@ const NextCards = ({ data }: CardProps) => {
       <Text variant="h2" style={{ paddingHorizontal: LATERAL_PADDING }}>
         Próximos
       </Text>
-      <FlatList
-        style={{
-          marginTop: verticalScale(6),
-        }}
-        scrollEnabled={false}
-        data={data}
-        showsHorizontalScrollIndicator={false}
-        CellRendererComponent={(props) => <View {...props} style={{ paddingVertical: 4 }} />}
-        renderItem={({ index, item }) => renderItem(index, item)}
-        keyExtractor={(item) => item.data.id}
-      />
+
+      {!data.length && (
+        <View
+          style={{ justifyContent: 'center', alignItems: 'center', marginTop: verticalScale(8) }}>
+          <Text
+            variant="sub2"
+            lightColor={grey}
+            darkColor={darkgrey}
+            style={{
+              textAlign: 'center',
+              maxWidth: horizontalScale(205),
+            }}>
+            Aguardando os próximos aniversariantes! 👀
+          </Text>
+        </View>
+      )}
+
+      {!!data.length && (
+        <FlatList
+          style={{
+            marginTop: verticalScale(6),
+          }}
+          scrollEnabled={false}
+          data={data}
+          showsHorizontalScrollIndicator={false}
+          CellRendererComponent={(props) => <View {...props} style={{ paddingVertical: 4 }} />}
+          renderItem={({ index, item }) => renderItem(index, item)}
+          keyExtractor={(item) => item.data.id}
+        />
+      )}
     </View>
   );
 };
@@ -217,7 +236,7 @@ export default function HomeScreen() {
         {isEmpty && !isLoading && (
           <View
             style={{
-              maxWidth: horizontalScale(212),
+              maxWidth: horizontalScale(232),
               flex: 1,
               paddingTop: '50%',
               alignItems: 'center',

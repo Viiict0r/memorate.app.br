@@ -1,11 +1,15 @@
 import { Octicons } from '@expo/vector-icons';
-import { Image, StyleSheet, View, Animated } from 'react-native';
+import { Image, StyleSheet, View, Animated, Alert } from 'react-native';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 import Swipeable from 'react-native-gesture-handler/Swipeable';
 
 import { Text } from '@/components/text';
-import { darkgrey, grey, grey3, red } from '@/constants/Colors';
+import { darkgrey, grey, grey3, orange, red } from '@/constants/Colors';
+import { usePerson } from '@/hooks/use-person';
+import { useUser } from '@/hooks/use-user';
+import { deletePerson } from '@/lib/firebase';
 import { PersonView } from '@/lib/transform-data';
-import { horizontalScale, verticalScale } from '@/utils/metrics';
+import { horizontalScale, moderateScale, verticalScale } from '@/utils/metrics';
 import { parseMonth } from '@/utils/month-parser';
 
 type Props = {
@@ -16,6 +20,8 @@ type Props = {
 const LATERAL_PADDING = 27;
 
 export const OthersCard = ({ data, highlighted }: Props) => {
+  const { user } = useUser();
+  const { refetch } = usePerson();
   const person = data.data;
 
   const getDescription = () => {
@@ -42,6 +48,29 @@ export const OthersCard = ({ data, highlighted }: Props) => {
 
   const description = getDescription();
 
+  const handleDelete = () =>
+    Alert.alert(
+      `Deletar o aniversário de ${person.fullname}?`,
+      'Essa ação não pode ser desfeita.',
+      [
+        {
+          text: 'Sim, deletar',
+          style: 'destructive',
+          isPreferred: true,
+          onPress: () =>
+            deletePerson(user!.uid, person.doc_id)
+              .then(() => {
+                Alert.alert('Lembrete removido com sucesso.');
+                refetch();
+              })
+              .catch(() => Alert.alert('Falha ao excluir lembrete', 'Tente novamente')),
+        },
+        {
+          text: 'Cancelar',
+        },
+      ],
+    );
+
   const renderActions = (progress: Animated.AnimatedInterpolation<number>) => {
     const trans = progress.interpolate({
       inputRange: [0, 1],
@@ -56,26 +85,28 @@ export const OthersCard = ({ data, highlighted }: Props) => {
           height: '100%',
           transform: [{ translateX: trans }],
         }}>
-        <Animated.View
+        <TouchableOpacity
           style={{
-            width: 72,
-            backgroundColor: '#FFB950',
+            width: horizontalScale(72),
+            backgroundColor: orange,
             height: '100%',
             justifyContent: 'center',
             alignItems: 'center',
           }}>
           <Octicons name="gear" size={20} color="#fff" />
-        </Animated.View>
-        <Animated.View
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={handleDelete}
+          activeOpacity={0.6}
           style={{
-            width: 72,
+            width: horizontalScale(72),
             backgroundColor: red,
             height: '100%',
             justifyContent: 'center',
             alignItems: 'center',
           }}>
           <Octicons name="trash" size={20} color="#fff" />
-        </Animated.View>
+        </TouchableOpacity>
       </Animated.View>
     );
   };
@@ -96,8 +127,8 @@ export const OthersCard = ({ data, highlighted }: Props) => {
             padding: 1,
             borderRadius: 999,
             overflow: 'hidden',
-            width: verticalScale(44),
-            height: verticalScale(44),
+            width: moderateScale(44),
+            height: moderateScale(44),
             borderWidth: 2,
             borderColor: highlighted ? grey : grey3,
           }}>
