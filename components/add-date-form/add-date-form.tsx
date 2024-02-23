@@ -80,6 +80,7 @@ type Props = {
 
 export const AddDateForm = ({ onContentDecrease, onContentExpand, onSuccess, onClose }: Props) => {
   const [isBirthdayPickerVisible, setBirthdayPickerVisible] = useState(false);
+  const [formDisabled, setFormDisabled] = useState(false);
   const { showActionSheetWithOptions } = useActionSheet();
   const { user } = useUser();
   const { refetch } = usePerson();
@@ -117,6 +118,19 @@ export const AddDateForm = ({ onContentDecrease, onContentExpand, onSuccess, onC
       });
 
       Alert.alert('Você não informou o nome', 'Nome da pessoa obrigatório', [
+        {
+          text: 'Voltar',
+        },
+      ]);
+      return;
+    }
+
+    if (name.length > 25) {
+      setError('name', {
+        message: 'size overflow',
+      });
+
+      Alert.alert('Nome muito grande', 'O nome não pode ultrapassar 25 caracteres', [
         {
           text: 'Voltar',
         },
@@ -183,8 +197,6 @@ export const AddDateForm = ({ onContentDecrease, onContentExpand, onSuccess, onC
       ? `${String(formValues.day).padStart(2, '0')}/${String(months.indexOf(formValues.month) + 1).padStart(2, '0')}${formValues.year ? `/${formValues.year}` : ''}`
       : null;
 
-  // console.log(formValues);
-
   const handleReminderOptions = () => {
     showActionSheetWithOptions(
       {
@@ -210,6 +222,9 @@ export const AddDateForm = ({ onContentDecrease, onContentExpand, onSuccess, onC
     );
   };
 
+  const handleAvatarUploadStart = () => setFormDisabled(true);
+  const handleAvatarUploadFinish = () => setFormDisabled(false);
+
   useEffect(() => {
     if (isBirthdayPickerVisible) {
       onContentExpand();
@@ -225,7 +240,7 @@ export const AddDateForm = ({ onContentDecrease, onContentExpand, onSuccess, onC
           <View style={styles.header}>
             <Text variant="h2">Adicionar data</Text>
             <TouchableOpacity
-              onPress={onClose}
+              onPress={() => !formDisabled && onClose()}
               style={[
                 styles.close,
                 {
@@ -246,7 +261,10 @@ export const AddDateForm = ({ onContentDecrease, onContentExpand, onSuccess, onC
               },
             ]}>
             <View style={styles.photo_selection}>
-              <AvatarUpload />
+              <AvatarUpload
+                onUploadStart={handleAvatarUploadStart}
+                onUploadFinish={handleAvatarUploadFinish}
+              />
 
               <Text variant="cap2" style={{ marginTop: 20 }}>
                 Que tal adicionar uma foto?{' '}
@@ -362,7 +380,11 @@ export const AddDateForm = ({ onContentDecrease, onContentExpand, onSuccess, onC
             </View>
           </View>
         </BottomSheetScrollView>
-        <SaveButton disabled={isSubmitting} onPress={handleSubmit(onSubmit)} />
+        <SaveButton
+          disabled={formDisabled || isSubmitting}
+          loading={isSubmitting}
+          onPress={handleSubmit(onSubmit)}
+        />
       </View>
     </FormProvider>
   );

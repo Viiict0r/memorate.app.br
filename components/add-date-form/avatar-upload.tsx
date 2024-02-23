@@ -1,5 +1,5 @@
 import { ImagePickerAsset } from 'expo-image-picker';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 import { ActivityIndicator, Alert, Image, StyleSheet, View } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
@@ -25,7 +25,7 @@ enum UploadStatus {
   ERROR = 'error',
 }
 
-export const AvatarUpload = () => {
+export const AvatarUpload = ({ onUploadFinish, onUploadStart }: Props) => {
   const [uri, setURI] = useState<string | null>(null);
   const [status, setStatus] = useState<UploadStatus>(UploadStatus.IDLE);
   const { setValue } = useFormContext();
@@ -61,6 +61,15 @@ export const AvatarUpload = () => {
   };
 
   const isLoading = status === UploadStatus.LOADING;
+
+  useEffect(() => {
+    if (status === UploadStatus.LOADING) {
+      onUploadStart();
+      return;
+    }
+
+    onUploadFinish();
+  }, [status]);
 
   return (
     <TouchableOpacity

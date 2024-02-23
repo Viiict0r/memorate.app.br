@@ -115,7 +115,7 @@ export const OthersCard = ({ data, highlighted }: Props) => {
           />
         </View>
         <View style={styles.name}>
-          <Text variant="button1" darkColor={grey}>
+          <Text variant="button1" darkColor={grey} numberOfLines={1}>
             {person.fullname}
           </Text>
           {description && (

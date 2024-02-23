@@ -18,11 +18,6 @@ export const UserProvider = ({ children }: UserProviderProps) => {
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setLoading] = useState(true);
 
-  // ! Salvar um identificador de primeiro login no asyncstorage
-  // ! caso seja o primeiro login, mostrar uma tela de bem-vindo
-
-  // ! Upload de imagens em um back-end próprio ou no firebase cloud storage
-
   useEffect(() => {
     /** Firebase user */
     const subscriber = auth().onAuthStateChanged((user) => {
@@ -31,6 +26,7 @@ export const UserProvider = ({ children }: UserProviderProps) => {
         return;
       }
       console.log(user.uid);
+
       setUser({
         isAnonymous: user.isAnonymous || true,
         uid: user.uid,

@@ -39,7 +39,7 @@ export const TodayCard = ({ data }: Props) => {
       <View style={styles.name_container}>
         <Avatar src={person?.photo || ''} />
         <View>
-          <Text variant="sub1" style={{ color: darker }}>
+          <Text variant="sub1" numberOfLines={1} style={{ color: darker }}>
             {person.fullname}
           </Text>
           {age ? (

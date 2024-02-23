@@ -6,9 +6,10 @@ import { Text } from '../text';
 type Props = {
   onPress: () => void;
   disabled?: boolean;
+  loading?: boolean;
 };
 
-export const SaveButton = ({ onPress, disabled = false }: Props) => (
+export const SaveButton = ({ onPress, disabled = false, loading = false }: Props) => (
   <TouchableOpacity
     activeOpacity={0.5}
     disabled={disabled}
@@ -23,8 +24,8 @@ export const SaveButton = ({ onPress, disabled = false }: Props) => (
       alignItems: 'center',
     }}>
     <Text variant="button1" lightColor="#fff" darkColor="#fff">
-      {!disabled && 'Salvar'}
-      {disabled && <ActivityIndicator color="#fff" size="small" />}
+      {!loading && 'Salvar'}
+      {loading && <ActivityIndicator color="#fff" size="small" />}
     </Text>
   </TouchableOpacity>
 );

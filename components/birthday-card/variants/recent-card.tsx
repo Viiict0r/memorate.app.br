@@ -47,6 +47,7 @@ export const RecentCard = ({ data }: Props) => {
         <View>
           <Text
             variant="sub1"
+            numberOfLines={1}
             lightColor={Colors[theme].birthday_card.recent.text}
             darkColor={Colors[theme].birthday_card.recent.text}>
             {firstName(person.fullname)} •{' '}
