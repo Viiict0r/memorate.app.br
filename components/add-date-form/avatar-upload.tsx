@@ -1,7 +1,7 @@
 import { ImagePickerAsset } from 'expo-image-picker';
 import React, { useEffect, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
-import { ActivityIndicator, Alert, Image, StyleSheet, View } from 'react-native';
+import { ActivityIndicator, Alert, Image, StyleSheet, View, Platform } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
 import { Text } from '../text';
@@ -35,12 +35,13 @@ export const AvatarUpload = ({ onUploadFinish, onUploadStart }: Props) => {
     setStatus(UploadStatus.LOADING);
     setURI(image.uri);
 
-    const url = image.uri.replace('file://', '');
+    const url = Platform.OS === 'ios' ? image.uri.replace('file://', '') : image.uri;
     const filename = image.uri.split('/').pop();
     const match = /\.(\w+)$/.exec(filename as string);
     const ext = match?.[1];
     const type = match ? `image/${match[1]}` : `image`;
     const formData = new FormData();
+
     formData.append('photo', {
       uri: url,
       name: `avatar.${ext}`,
