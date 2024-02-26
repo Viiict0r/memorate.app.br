@@ -26,7 +26,7 @@ import Colors, { darkgrey, grey, lighter, red } from '@/constants/Colors';
 import { usePerson } from '@/hooks/use-person';
 import { useTheme } from '@/hooks/use-theme';
 import { useUser } from '@/hooks/use-user';
-import { addPerson } from '@/lib/firebase';
+import { addPerson, updatePerson } from '@/lib/firebase';
 import { makePerson } from '@/types/person';
 
 type FormData = {
@@ -85,9 +85,20 @@ type Props = {
   onContentDecrease: () => void;
   onSuccess?: () => void;
   onClose: () => void;
+  initialData?: FormData;
+  docId?: string;
+  editing?: boolean;
 };
 
-export const AddDateForm = ({ onContentDecrease, onContentExpand, onSuccess, onClose }: Props) => {
+export const AddDateForm = ({
+  onContentDecrease,
+  onContentExpand,
+  onSuccess,
+  onClose,
+  initialData,
+  docId,
+  editing = false,
+}: Props) => {
   const [isBirthdayPickerVisible, setBirthdayPickerVisible] = useState(false);
   const [formDisabled, setFormDisabled] = useState(false);
   const { showActionSheetWithOptions } = useActionSheet();
@@ -96,12 +107,13 @@ export const AddDateForm = ({ onContentDecrease, onContentExpand, onSuccess, onC
   const { theme } = useTheme();
   const methods = useForm<FormData>({
     defaultValues: {
-      day: undefined,
-      month: undefined,
-      year: undefined,
-      name: undefined,
-      email_notifications: false,
-      reminder_days_before: 0,
+      day: initialData?.day ?? undefined,
+      month: initialData?.month ?? undefined,
+      year: initialData?.year ?? undefined,
+      name: initialData?.name ?? undefined,
+      email_notifications: initialData?.email_notifications ?? false,
+      reminder_days_before: initialData?.reminder_days_before ?? 0,
+      photo: initialData?.photo,
     },
   });
   const {
@@ -165,9 +177,9 @@ export const AddDateForm = ({ onContentDecrease, onContentExpand, onSuccess, onC
     }
 
     try {
-      await addPerson(
-        user!.uid,
-        makePerson({
+      if (editing) {
+        await updatePerson(user!.uid, {
+          doc_id: docId,
           fullname: name,
           photo: data.photo || null,
           birthday: {
@@ -179,18 +191,45 @@ export const AddDateForm = ({ onContentDecrease, onContentExpand, onSuccess, onC
             email_notifications: email_notifications || false,
             reminder_days: reminder_days_before,
           },
-        }),
-      );
+        });
 
-      Alert.alert(
-        '✨ Aniversário registrado! ✨',
-        'Te enviaremos uma notificação no dia do aniversário',
-        [
-          {
-            text: 'Confirmar',
-          },
-        ],
-      );
+        Alert.alert(
+          '✨ Aniversário atualizado! ✨',
+          'Te enviaremos uma notificação no dia do aniversário',
+          [
+            {
+              text: 'Confirmar',
+            },
+          ],
+        );
+      } else {
+        await addPerson(
+          user!.uid,
+          makePerson({
+            fullname: name,
+            photo: data.photo || null,
+            birthday: {
+              day: Number(day),
+              month: months.indexOf(month),
+              year: year ? Number(year) : null,
+            },
+            options: {
+              email_notifications: email_notifications || false,
+              reminder_days: reminder_days_before,
+            },
+          }),
+        );
+
+        Alert.alert(
+          '✨ Aniversário registrado! ✨',
+          'Te enviaremos uma notificação no dia do aniversário',
+          [
+            {
+              text: 'Confirmar',
+            },
+          ],
+        );
+      }
 
       onSuccess?.();
       refetch();
@@ -261,7 +300,7 @@ export const AddDateForm = ({ onContentDecrease, onContentExpand, onSuccess, onC
       <View style={styles.wrapper}>
         <BottomSheetScrollView style={styles.container}>
           <View style={styles.header}>
-            <Text variant="h2">Adicionar data</Text>
+            <Text variant="h2">{editing ? 'Editar data' : 'Adicionar data'}</Text>
             <TouchableOpacity
               onPress={() => !formDisabled && onClose()}
               style={[
@@ -287,6 +326,7 @@ export const AddDateForm = ({ onContentDecrease, onContentExpand, onSuccess, onC
               <AvatarUpload
                 onUploadStart={handleAvatarUploadStart}
                 onUploadFinish={handleAvatarUploadFinish}
+                initialURI={initialData?.photo}
               />
 
               <Text variant="cap2" style={{ marginTop: 20 }}>
@@ -348,7 +388,10 @@ export const AddDateForm = ({ onContentDecrease, onContentExpand, onSuccess, onC
           <Divider />
 
           {/* Birthday picker */}
-          <BirthdayPicker active={isBirthdayPickerVisible} />
+          <BirthdayPicker
+            active={isBirthdayPickerVisible}
+            initialShowYear={editing && !!initialData?.year}
+          />
 
           {/** Lembrete com antecedência (premium) */}
           <View style={styles.option}>
