@@ -1,4 +1,4 @@
-import { StyleSheet, View, Text as NativeText, Pressable, Dimensions } from 'react-native';
+import { StyleSheet, View, Text as NativeText, Pressable, Dimensions, Share } from 'react-native';
 
 import { Avatar } from '../avatar';
 
@@ -7,6 +7,7 @@ import Colors, { darker } from '@/constants/Colors';
 import { useTheme } from '@/hooks/use-theme';
 import { PersonView } from '@/lib/transform-data';
 import { horizontalScale, moderateScale, verticalScale } from '@/utils/metrics';
+import { getRandomShareMessage } from '@/utils/shareable-messages';
 
 type Props = {
   data: PersonView;
@@ -24,6 +25,14 @@ export const TodayCard = ({ data }: Props) => {
     }
 
     return null;
+  };
+
+  const shareMessage = () => {
+    const message = getRandomShareMessage();
+
+    Share.share({
+      message,
+    }).catch((err) => console.error(err));
   };
 
   const age = getAge();
@@ -73,7 +82,7 @@ export const TodayCard = ({ data }: Props) => {
             </Text>
           </Text>
         </View>
-        <Pressable>
+        <Pressable onPress={shareMessage}>
           {({ pressed }) => (
             <View
               style={[
