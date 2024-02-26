@@ -52,7 +52,7 @@ export default function RootLayout() {
     if (loaded) {
       setTimeout(() => {
         SplashScreen.hideAsync();
-      }, 1500);
+      }, 1000);
     }
   }, [loaded]);
 
@@ -95,7 +95,7 @@ function RootLayoutNav() {
           <PersonProvider>
             <SafeAreaProvider>
               <ThemeProvider value={theme === 'dark' ? DarkTheme : LightTheme}>
-                <Stack>
+                <Stack screenOptions={{ animation: 'slide_from_right' }}>
                   <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
                   <Stack.Screen name="settings" options={{ headerShown: false }} />
                   <Stack.Screen

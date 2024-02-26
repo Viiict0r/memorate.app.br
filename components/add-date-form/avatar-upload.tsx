@@ -56,6 +56,8 @@ export const AvatarUpload = ({ onUploadFinish, onUploadStart }: Props) => {
       setValue('photo', data.imageUrl);
       setStatus(UploadStatus.SUCCESS);
     } catch (error) {
+      setStatus(UploadStatus.ERROR);
+      setURI(null);
       console.error(error);
       Alert.alert('Ops...', 'Ocorreu um erro ao realizar upload da foto, tente novamente.');
     }
