@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useFormContext } from 'react-hook-form';
 import { Switch, View } from 'react-native';
 
 import { DatePicker } from '../date-picker';
@@ -8,6 +9,7 @@ import { grey } from '@/constants/Colors';
 
 type Props = {
   active: boolean;
+  initialShowYear: boolean;
 };
 
 const Divider = ({ opacity = 0.15 }: { opacity?: number }) => (
@@ -21,12 +23,34 @@ const Divider = ({ opacity = 0.15 }: { opacity?: number }) => (
   />
 );
 
-export const BirthdayPicker = ({ active }: Props) => {
-  const [showYear, setShowYear] = useState(false);
+export const BirthdayPicker = ({ active, initialShowYear }: Props) => {
+  const { setValue, getValues } = useFormContext();
+  const [showYear, setShowYear] = useState(initialShowYear);
   const toggleShowYear = () => setShowYear(!showYear);
 
-  return active ? (
-    <View style={{ display: active ? 'flex' : 'flex' }}>
+  const values = getValues();
+
+  useEffect(() => {
+    if (!active) {
+      return;
+    }
+
+    if (!values.day && !values.month) {
+      setValue('day', '1');
+      setValue('month', 'Janeiro');
+    }
+    if (showYear && !values.year) {
+      setValue('year', String(new Date().getFullYear()));
+    }
+    if (!showYear && values.year) {
+      setValue('year', null);
+    }
+  }, [values, active, showYear]);
+
+  const canRender = values.month && values.day;
+
+  return active && canRender ? (
+    <View>
       <DatePicker showYear={showYear} />
 
       <Divider />

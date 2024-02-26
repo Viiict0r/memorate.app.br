@@ -53,7 +53,7 @@
     "react-native-screens": "~3.29.0",
     "react-native-uuid": "^2.0.1",
     "react-native-web": "~0.19.6",
-    "react-native-wheel-pick": "^1.2.2"
+    "react-native-wheel-pick": "TronNatthakorn/react-native-wheel-pick#pull/45/head"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

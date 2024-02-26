@@ -10,6 +10,16 @@ export async function deletePerson(user_id: string, doc_id: string) {
   await firestore().doc(`persons/${user_id}`).collection('data').doc(doc_id).delete();
 }
 
+export async function updatePerson(user_id: string, data: Partial<Person>) {
+  await firestore()
+    .doc(`persons/${user_id}`)
+    .collection('data')
+    .doc(data.doc_id)
+    .update({
+      ...data,
+    });
+}
+
 export async function getPersons(user_id: string): Promise<Person[] | null> {
   try {
     const data = await firestore().doc(`persons/${user_id}`).collection('data').get();

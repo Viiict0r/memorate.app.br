@@ -168,8 +168,6 @@ function HomeScreen() {
     openWelcomeScreen();
   });
 
-  console.log('re-endered');
-
   return (
     <HomeLayout>
       <ScrollView>

@@ -12,6 +12,7 @@ import { api } from '@/lib/axios';
 type Props = {
   onUploadStart: () => void;
   onUploadFinish: () => void;
+  initialURI?: string;
 };
 
 type UploadResponse = {
@@ -25,8 +26,8 @@ enum UploadStatus {
   ERROR = 'error',
 }
 
-export const AvatarUpload = ({ onUploadFinish, onUploadStart }: Props) => {
-  const [uri, setURI] = useState<string | null>(null);
+export const AvatarUpload = ({ onUploadFinish, onUploadStart, initialURI }: Props) => {
+  const [uri, setURI] = useState<string | null>(initialURI || null);
   const [status, setStatus] = useState<UploadStatus>(UploadStatus.IDLE);
   const { setValue } = useFormContext();
   const { pickImage } = useImagePicker();

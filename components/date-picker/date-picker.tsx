@@ -1,9 +1,10 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useFormContext, Controller } from 'react-hook-form';
 import { StyleSheet, View } from 'react-native';
 import { Picker } from 'react-native-wheel-pick';
 
 import { months } from './months';
+import { years } from './years';
 
 import Colors from '@/constants/Colors';
 import { useTheme } from '@/hooks/use-theme';
@@ -15,27 +16,31 @@ type Props = {
 };
 
 export const DatePicker = ({ showYear }: Props) => {
-  const { control, setValue, getValues } = useFormContext();
+  const { control, getValues } = useFormContext();
   const { theme } = useTheme();
-
-  const years = useMemo(() => {
-    const y = [];
-    const currentYear = new Date().getFullYear();
-
-    for (let i = currentYear - 100; i <= currentYear; i++) {
-      y.push(i);
-    }
-
-    return y;
-  }, []);
+  const yearRef = useRef();
 
   const selectedYear = getValues().year;
 
   useEffect(() => {
-    if (selectedYear) return;
+    // if (selectedYear) {
+    //   if (yearRef.current && isFirstRenderRef.current) {
+    //     // @ts-ignore
+    //     yearRef.current?.handleChange(`${selectedYear}`);
+    //     isFirstRenderRef.current = false;
+    //   }
+    //   return;
+    // }
+    // if (yearRef.current && isFirstRenderRef.current && showYear) {
+    //   // @ts-ignore
+    //   yearRef.current?.handleChange(`${new Date().getFullYear()}`);
+    //   isFirstRenderRef.current = false;
+    // }
+  }, [showYear, selectedYear, yearRef]);
 
-    setValue('year', null);
-  }, [showYear, selectedYear]);
+  // useFirstRender(() => {
+
+  // }, [])
 
   return (
     <View style={styles.container}>
@@ -87,23 +92,26 @@ export const DatePicker = ({ showYear }: Props) => {
         <Controller
           control={control}
           name="year"
-          render={({ field: { onChange, value } }) => (
-            <Picker
-              itemStyle={{
-                fontSize: 14,
-                fontFamily: 'PoppinsRegular',
-                height: 150,
-              }}
-              textColor={Colors[theme].text}
-              style={{ width: '30%', backgroundColor: 'transparent', height: 150 }}
-              selectedValue={value}
-              pickerData={years}
-              onValueChange={onChange}
-              // Android
-              textSize={18}
-              isShowSelectBackground={false}
-            />
-          )}
+          render={({ field: { onChange, value } }) => {
+            return (
+              <Picker
+                ref={yearRef}
+                itemStyle={{
+                  fontSize: 14,
+                  fontFamily: 'PoppinsRegular',
+                  height: 150,
+                }}
+                textColor={Colors[theme].text}
+                style={{ width: '30%', backgroundColor: 'transparent', height: 150 }}
+                pickerData={years}
+                selectedValue={value}
+                onValueChange={onChange}
+                // Android
+                textSize={18}
+                isShowSelectBackground={false}
+              />
+            );
+          }}
         />
       )}
     </View>

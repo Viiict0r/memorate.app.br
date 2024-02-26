@@ -1,15 +1,17 @@
 import { Octicons } from '@expo/vector-icons';
+import { useState } from 'react';
 import { Image, StyleSheet, View, Animated, Alert } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import Swipeable from 'react-native-gesture-handler/Swipeable';
 
+import { EditDateModal } from '@/components/edit-date-modal';
 import { Text } from '@/components/text';
 import { darkgrey, grey, grey3, orange, red } from '@/constants/Colors';
 import { usePerson } from '@/hooks/use-person';
 import { useUser } from '@/hooks/use-user';
 import { deletePerson } from '@/lib/firebase';
 import { PersonView } from '@/lib/transform-data';
-import { horizontalScale, moderateScale, verticalScale } from '@/utils/metrics';
+import { horizontalScale, moderateScale } from '@/utils/metrics';
 import { parseMonth } from '@/utils/month-parser';
 
 type Props = {
@@ -20,6 +22,7 @@ type Props = {
 const LATERAL_PADDING = 27;
 
 export const OthersCard = ({ data, highlighted }: Props) => {
+  const [isEditing, setIsEditing] = useState(false);
   const { user } = useUser();
   const { refetch } = usePerson();
   const person = data.data;
@@ -86,6 +89,7 @@ export const OthersCard = ({ data, highlighted }: Props) => {
           transform: [{ translateX: trans }],
         }}>
         <TouchableOpacity
+          onPress={toggleEditing}
           style={{
             width: horizontalScale(72),
             backgroundColor: orange,
@@ -111,61 +115,73 @@ export const OthersCard = ({ data, highlighted }: Props) => {
     );
   };
 
+  const toggleEditing = () => setIsEditing(!isEditing);
+
   return (
-    <Swipeable overshootLeft={false} overshootRight={false} renderRightActions={renderActions}>
-      <View style={styles.container}>
-        <View style={styles.date}>
-          <Text variant="sub1" lightColor={grey3} darkColor={highlighted ? grey : grey3}>
-            {String(person.birthday.day).padStart(2, '0')}
-          </Text>
-          <Text variant="body1" lightColor={grey3} darkColor={highlighted ? grey : grey3}>
-            {parseMonth(person.birthday.month)}
-          </Text>
-        </View>
-        <View
-          style={{
-            padding: 1,
-            borderRadius: 999,
-            overflow: 'hidden',
-            width: moderateScale(44),
-            height: moderateScale(44),
-            borderWidth: 2,
-            borderColor: highlighted ? grey : grey3,
-          }}>
-          <Image
-            style={{
-              width: '100%',
-              height: '100%',
-              borderRadius: 999,
-            }}
-            source={
-              data.data.photo
-                ? { uri: data.data.photo }
-                : require(`../../../assets/images/no-photo.png`)
-            }
-          />
-        </View>
-        <View style={styles.name}>
-          <Text variant="button1" darkColor={grey} numberOfLines={1}>
-            {person.fullname}
-          </Text>
-          {description && (
-            <Text variant="cap2" lightColor={darkgrey} darkColor={darkgrey}>
-              {description}
+    <>
+      <Swipeable overshootLeft={false} overshootRight={false} renderRightActions={renderActions}>
+        <View style={styles.container}>
+          <View style={styles.date}>
+            <Text variant="sub1" lightColor={grey3} darkColor={highlighted ? grey : grey3}>
+              {String(person.birthday.day).padStart(2, '0')}
             </Text>
-          )}
+            <Text variant="body1" lightColor={grey3} darkColor={highlighted ? grey : grey3}>
+              {parseMonth(person.birthday.month)}
+            </Text>
+          </View>
+          <View
+            style={{
+              padding: 1,
+              borderRadius: 999,
+              overflow: 'hidden',
+              width: moderateScale(44),
+              height: moderateScale(44),
+              borderWidth: 2,
+              borderColor: highlighted ? grey : grey3,
+            }}>
+            <Image
+              style={{
+                width: '100%',
+                height: '100%',
+                borderRadius: 999,
+              }}
+              source={
+                data.data.photo
+                  ? { uri: data.data.photo }
+                  : require(`../../../assets/images/no-photo.png`)
+              }
+            />
+          </View>
+          <View style={styles.name}>
+            <Text variant="button1" darkColor={grey} numberOfLines={1}>
+              {person.fullname}
+            </Text>
+            {description && (
+              <Text variant="cap2" lightColor={darkgrey} darkColor={darkgrey}>
+                {description}
+              </Text>
+            )}
+          </View>
+          <View style={styles.days}>
+            <Text variant="sub1" lightColor={darkgrey} darkColor={darkgrey}>
+              {String(data.daysLeft).padStart(2, '0')}
+            </Text>
+            <Text
+              variant="body1"
+              lightColor={grey3}
+              darkColor={
+                highlighted ? darkgrey : grey3
+              }>{`dia${data.daysLeft > 1 ? 's' : ''}`}</Text>
+          </View>
         </View>
-        <View style={styles.days}>
-          <Text variant="sub1" lightColor={darkgrey} darkColor={darkgrey}>
-            {String(data.daysLeft).padStart(2, '0')}
-          </Text>
-          <Text
-            variant="body1"
-            lightColor={grey3}
-            darkColor={highlighted ? darkgrey : grey3}>{`dia${data.daysLeft > 1 ? 's' : ''}`}</Text>
-        </View>
-      </View>
-    </Swipeable>
+      </Swipeable>
+      <EditDateModal
+        personId={person.id}
+        personDocId={person.doc_id}
+        isEditing={isEditing}
+        onClose={() => setIsEditing(false)}
+      />
+    </>
   );
 };
 
