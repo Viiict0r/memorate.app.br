@@ -1,6 +1,7 @@
 import { differenceInDays, endOfDay } from 'date-fns';
 
 import { Person } from '@/types/person';
+import { parseFullMonth } from '@/utils/month-parser';
 
 export type PersonView = {
   data: Person;
@@ -114,3 +115,114 @@ export function transformToView(data: Person[]): Result {
     recent,
   };
 }
+
+export type DataWithSeparator = {
+  type: 'date' | 'separator';
+  highlighted: boolean;
+  payload: string | PersonView;
+};
+
+// - Separador de próximo ano (datas menores que a atual)
+// - Separador de proximos meses (datas maiores que 90 dias)
+// - Separador de mes (datas menores que 90 dias)
+
+export function insertNextSeparators(data: PersonView[]): DataWithSeparator[] {
+  if (!data.length) return [];
+  const result: DataWithSeparator[] = [];
+
+  let nextYearSeparatorInserted = false;
+  let hasAnyPreviusMonthSeparatorInserted = false;
+  let nextMonthsSeparatorInserted = false;
+  let isFirst = true;
+
+  const elements = data.filter((dt) => dt.isNext);
+
+  elements.forEach((value, index) => {
+    // Separators
+    const isOnNextYear = isBirthdayNextYear(value.data);
+    const isLessThanThreeMonths = value.daysLeft <= 90;
+    const previusItem = elements[index - 1];
+
+    // Primeiro elemento
+    if (isFirst && !isOnNextYear) {
+      isFirst = false;
+
+      result.push({
+        type: 'date',
+        highlighted: true,
+        payload: value,
+      });
+      return;
+    }
+
+    /** Caso a data de aniversário seja no próximo ano, insere
+     * o separador de próximo ano e as próximas datas renderizam
+     * todas abaixo. */
+    if (isOnNextYear && !nextYearSeparatorInserted) {
+      result.push({
+        type: 'separator',
+        payload: `${new Date().getFullYear() + 1}`,
+        highlighted: false,
+      }); // separator
+
+      result.push({ type: 'date', payload: value, highlighted: false }); // data
+
+      nextYearSeparatorInserted = true;
+      return;
+    }
+
+    if (nextYearSeparatorInserted) {
+      result.push({ type: 'date', payload: value, highlighted: false });
+      return;
+    }
+
+    if (isLessThanThreeMonths) {
+      const isPreviusSameMonth = previusItem
+        ? previusItem?.data.birthday.month === value.data.birthday.month
+        : false;
+
+      if (isPreviusSameMonth) {
+        result.push({
+          type: 'date',
+          payload: value,
+          highlighted: !hasAnyPreviusMonthSeparatorInserted,
+        });
+        return;
+      }
+
+      result.push({
+        type: 'separator',
+        payload: parseFullMonth(value.data.birthday.month),
+        highlighted: false,
+      });
+      hasAnyPreviusMonthSeparatorInserted = true;
+
+      result.push({
+        type: 'date',
+        payload: value,
+        highlighted: !hasAnyPreviusMonthSeparatorInserted,
+      });
+
+      return;
+    }
+
+    if (!nextMonthsSeparatorInserted) {
+      result.push({ type: 'separator', payload: 'PRÓXIMOS MESES', highlighted: false });
+      nextMonthsSeparatorInserted = true;
+    }
+
+    result.push({ type: 'date', payload: value, highlighted: false });
+  });
+
+  return result;
+}
+
+const isBirthdayNextYear = (person: Person) => {
+  const currentMonth = new Date().getMonth();
+  const currentDay = new Date().getDate();
+  const { birthday } = person;
+
+  return (
+    birthday.month < currentMonth || (birthday.month === currentMonth && birthday.day < currentDay)
+  );
+};

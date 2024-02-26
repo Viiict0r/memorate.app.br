@@ -10,10 +10,13 @@ import { darkgrey, grey } from '@/constants/Colors';
 import { useFirstOpen } from '@/hooks/use-first-open';
 import { usePerson } from '@/hooks/use-person';
 import { HomeLayout } from '@/layouts/home-layout';
-import { PersonView, transformToView } from '@/lib/transform-data';
-import { Person } from '@/types/person';
+import {
+  DataWithSeparator,
+  PersonView,
+  insertNextSeparators,
+  transformToView,
+} from '@/lib/transform-data';
 import { horizontalScale, verticalScale } from '@/utils/metrics';
-import { parseFullMonth } from '@/utils/month-parser';
 
 const LATERAL_PADDING = 27;
 
@@ -92,81 +95,24 @@ const RecentCards = ({ data }: CardProps) => (
 );
 
 const NextCards = ({ data }: CardProps) => {
-  const currentMonth = new Date().getMonth();
-  const currentDay = new Date().getDate();
+  const withSeparators = insertNextSeparators(data);
 
-  const isBirthdayNextYear = (person: Person) => {
-    const { birthday } = person;
-    return (
-      birthday.month < currentMonth ||
-      (birthday.month === currentMonth && birthday.day < currentDay)
-    );
-  };
-
-  const renderItem = (index: number, item: PersonView) => {
-    const { birthday } = item.data;
-    let hasPreviusSeparator = false; // Indica se já renderizou algum divider
-    const previusItem = data[index - 1];
-    const previusIsOnNextYear = previusItem ? isBirthdayNextYear(previusItem.data) : false;
-    const isOnNextYear = isBirthdayNextYear(item.data);
-    const isOnNextMonth = birthday.month > currentMonth;
-    const isInThisMonth = birthday.month === currentMonth;
-    const isPastMoreThanThreeMonths = item.daysLeft > 90;
-    const isPreviusPastMoreThreeMonths = previusItem ? previusItem.daysLeft > 90 : false;
-    const isPreviusOnLastMonth = previusItem
-      ? previusItem.data.birthday.month !== birthday.month
-      : false;
-
-    if (isInThisMonth && !isOnNextYear) {
-      return <BirthdayCard data={item} variant="others" highlighted />;
+  const renderItem = (index: number, item: DataWithSeparator) => {
+    if (item.type === 'separator') {
+      return <MonthDivider label={item.payload as string} />;
     }
 
-    /** Renders next year separator */
-    if (isOnNextYear && !previusIsOnNextYear) {
-      if (!hasPreviusSeparator) {
-        hasPreviusSeparator = true;
-      }
+    if (item.type === 'date') {
       return (
-        <>
-          <MonthDivider
-            label={`${new Date().getFullYear() + 1}`}
-            topMargin={previusItem ? undefined : 0}
-          />
-          <BirthdayCard data={item} variant="others" />
-        </>
+        <BirthdayCard
+          data={item.payload as PersonView}
+          variant="others"
+          highlighted={item.highlighted}
+        />
       );
     }
 
-    if (isPastMoreThanThreeMonths && !isPreviusPastMoreThreeMonths && !!previusItem) {
-      if (!hasPreviusSeparator) {
-        hasPreviusSeparator = true;
-      }
-
-      return (
-        <>
-          <MonthDivider label="PRÓXIMOS MESES" topMargin={previusItem ? undefined : 0} />
-          <BirthdayCard data={item} variant="others" />
-        </>
-      );
-    }
-
-    if (isOnNextMonth && isPreviusOnLastMonth && !isPastMoreThanThreeMonths) {
-      if (!hasPreviusSeparator) {
-        hasPreviusSeparator = true;
-      }
-
-      return (
-        <>
-          <MonthDivider
-            label={parseFullMonth(birthday.month)}
-            topMargin={previusItem ? undefined : 0}
-          />
-          <BirthdayCard data={item} variant="others" />
-        </>
-      );
-    }
-
-    return <BirthdayCard data={item} variant="others" highlighted={!hasPreviusSeparator} />;
+    return null;
   };
 
   return (
@@ -197,18 +143,20 @@ const NextCards = ({ data }: CardProps) => {
             marginTop: verticalScale(6),
           }}
           scrollEnabled={false}
-          data={data}
+          data={withSeparators}
           showsHorizontalScrollIndicator={false}
           CellRendererComponent={(props) => <View {...props} style={{ paddingVertical: 4 }} />}
           renderItem={({ index, item }) => renderItem(index, item)}
-          keyExtractor={(item) => item.data.id}
+          keyExtractor={(item) =>
+            item.type === 'separator' ? String(item.payload) : (item.payload as PersonView).data.id
+          }
         />
       )}
     </View>
   );
 };
 
-export default function HomeScreen() {
+function HomeScreen() {
   const { data, isLoading } = usePerson();
 
   const openWelcomeScreen = () => router.navigate('welcome');
@@ -219,6 +167,8 @@ export default function HomeScreen() {
   useFirstOpen(() => {
     openWelcomeScreen();
   });
+
+  console.log('re-endered');
 
   return (
     <HomeLayout>
@@ -268,3 +218,5 @@ export default function HomeScreen() {
     </HomeLayout>
   );
 }
+
+export default React.memo(HomeScreen, () => false);
