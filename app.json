@@ -2,7 +2,7 @@
   "expo": {
     "name": "memorate",
     "slug": "memorate",
-    "version": "1.0.1",
+    "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "scheme": "memorate",
@@ -18,7 +18,8 @@
     "ios": {
       "supportsTablet": true,
       "googleServicesFile": "./GoogleService-Info.plist",
-      "bundleIdentifier": "com.viensoft.memorate.app"
+      "bundleIdentifier": "com.viensoft.memorate.app",
+      "buildNumber": "4"
     },
     "android": {
       "googleServicesFile": "./google-services.json",
@@ -26,7 +27,8 @@
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.viensoft.memorate.app"
+      "package": "com.viensoft.memorate.app",
+      "versionCode": 2
     },
     "web": {
       "bundler": "metro",
@@ -63,7 +65,7 @@
         "projectId": "a18952fd-c6fe-4d58-9c8f-d43cf2f67526"
       }
     },
-    "runtimeVersion": "1.0.1",
+    "runtimeVersion": "1.0.0",
     "updates": {
       "url": "https://u.expo.dev/a18952fd-c6fe-4d58-9c8f-d43cf2f67526"
     }
