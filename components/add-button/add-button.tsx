@@ -11,7 +11,7 @@ import Colors, { grey } from '@/constants/Colors';
 import { useTheme } from '@/hooks/use-theme';
 import { moderateScale, verticalScale } from '@/utils/metrics';
 
-export const TabBar = () => {
+export const AddButton = () => {
   const { theme } = useTheme();
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
   const [snapPoint, setSnapPoint] = useState('60%');
