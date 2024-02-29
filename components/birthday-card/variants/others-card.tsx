@@ -125,7 +125,11 @@ export const OthersCard = ({ data, highlighted }: Props) => {
             <Text variant="sub1" lightColor={grey3} darkColor={highlighted ? grey : grey3}>
               {String(person.birthday.day).padStart(2, '0')}
             </Text>
-            <Text variant="body1" lightColor={grey3} darkColor={highlighted ? grey : grey3}>
+            <Text
+              variant="body1"
+              numberOfLines={1}
+              lightColor={grey3}
+              darkColor={highlighted ? grey : grey3}>
               {parseMonth(person.birthday.month)}
             </Text>
           </View>
@@ -195,7 +199,8 @@ const styles = StyleSheet.create({
   date: {
     flexDirection: 'column',
     alignItems: 'flex-start',
-    width: horizontalScale(28),
+    width: horizontalScale(30),
+    marginRight: horizontalScale(3) * -1,
   },
   name: {
     flexDirection: 'column',

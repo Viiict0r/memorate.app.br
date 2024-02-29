@@ -101,6 +101,7 @@ export const AddDateForm = ({
 }: Props) => {
   const [isBirthdayPickerVisible, setBirthdayPickerVisible] = useState(false);
   const [formDisabled, setFormDisabled] = useState(false);
+  const [isSaveButtonVisible, setSaveButtonVisible] = useState(true);
   const { showActionSheetWithOptions } = useActionSheet();
   const { user } = useUser();
   const { refetch } = usePerson();
@@ -248,20 +249,20 @@ export const AddDateForm = ({
   const handleReminderOptions = () => {
     showActionSheetWithOptions(
       {
-        options: ['15 dias', '7 dias', '2 dias', 'Cancelar'],
+        options: ['2 dias', '7 dias', '15 dias', 'Cancelar'],
         message: 'Deseja ser lembrado com quanto tempo de antecedência?',
         destructiveButtonIndex: 3,
       },
       (index) => {
         switch (index) {
-          case 2: // 2 dias
-            setValue('reminder_days_before', 2);
+          case 2: // 15 dias
+            setValue('reminder_days_before', 15);
             break;
           case 1: // 7 dias
             setValue('reminder_days_before', 7);
             break;
-          case 0: // 15 dias
-            setValue('reminder_days_before', 15);
+          case 0: // 2 dias
+            setValue('reminder_days_before', 2);
             break;
           default:
             break;
@@ -284,9 +285,11 @@ export const AddDateForm = ({
   useEffect(() => {
     const showSubscription = Keyboard.addListener('keyboardWillShow', () => {
       onContentExpand();
+      setSaveButtonVisible(false);
     });
     const hideSubscription = Keyboard.addListener('keyboardWillHide', () => {
       if (!isBirthdayPickerVisible) onContentDecrease();
+      setSaveButtonVisible(true);
     });
 
     return () => {
@@ -450,11 +453,13 @@ export const AddDateForm = ({
             </View>
           </View>
         </BottomSheetScrollView>
-        <SaveButton
-          disabled={formDisabled || isSubmitting}
-          loading={isSubmitting}
-          onPress={handleSubmit(onSubmit)}
-        />
+        {isSaveButtonVisible && (
+          <SaveButton
+            disabled={formDisabled || isSubmitting}
+            loading={isSubmitting}
+            onPress={handleSubmit(onSubmit)}
+          />
+        )}
       </View>
     </FormProvider>
   );
