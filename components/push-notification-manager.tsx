@@ -23,6 +23,8 @@ async function registerForPushNotificationsAsync() {
       name: 'default',
       importance: Notifications.AndroidImportance.MAX,
       vibrationPattern: [0, 250, 250, 250],
+      sound: 'default',
+      enableVibrate: true,
       lightColor: '#FF231F7C',
     });
   }
@@ -57,10 +59,6 @@ export const PushNotificationManager = () => {
   useEffect(() => {
     registerForPushNotificationsAsync().then((token) => setExpoPushToken(token));
 
-    // notificationListener.current = Notifications.addNotificationReceivedListener((notification) => {
-    //   setNotification(notification);
-    // });
-
     responseListener.current = Notifications.addNotificationResponseReceivedListener((response) => {
       console.log(response);
     });
@@ -81,24 +79,3 @@ export const PushNotificationManager = () => {
 
   return null;
 };
-
-// Can use this function below or use Expo's Push Notification Tool from: https://expo.dev/notifications
-// async function sendPushNotification(expoPushToken) {
-//   const message = {
-//     to: expoPushToken,
-//     sound: 'default',
-//     title: 'Original Title',
-//     body: 'And here is the body!',
-//     data: { someData: 'goes here' },
-//   };
-
-//   await fetch('https://exp.host/--/api/v2/push/send', {
-//     method: 'POST',
-//     headers: {
-//       Accept: 'application/json',
-//       'Accept-encoding': 'gzip, deflate',
-//       'Content-Type': 'application/json',
-//     },
-//     body: JSON.stringify(message),
-//   });
-// }
