@@ -27,7 +27,9 @@ export const RecentCard = ({ data }: Props) => {
       return `Fez ${age} ano${age > 1 ? 's' : ''} ${timeText}.`;
     }
 
-    return `Ficou mais velho(a) ${timeText}.`;
+    return data.daysPast > 1
+      ? `Fez aniversário há ${data.daysPast} dia${data.daysPast > 1 ? 's' : ''}`
+      : 'Fez aniversário ontem';
   };
 
   const shareMessage = () => {

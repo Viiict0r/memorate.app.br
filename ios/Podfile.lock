@@ -895,9 +895,9 @@ PODS:
     - gRPC-Core/Interface (= 1.49.1)
   - gRPC-Core/Interface (1.49.1)
   - GTMSessionFetcher/Core (3.3.1)
-  - hermes-engine (0.73.2):
-    - hermes-engine/Pre-built (= 0.73.2)
-  - hermes-engine/Pre-built (0.73.2)
+  - hermes-engine (0.73.4):
+    - hermes-engine/Pre-built (= 0.73.4)
+  - hermes-engine/Pre-built (0.73.4)
   - leveldb-library (1.22.3)
   - libevent (2.1.12)
   - nanopb (2.30909.1):
@@ -2329,7 +2329,7 @@ SPEC CHECKSUMS:
   "gRPC-C++": 2df8cba576898bdacd29f0266d5236fa0e26ba6a
   gRPC-Core: a21a60aefc08c68c247b439a9ef97174b0c54f96
   GTMSessionFetcher: 8a1b34ad97ebe6f909fb8b9b77fba99943007556
-  hermes-engine: b361c9ef5ef3cda53f66e195599b47e1f84ffa35
+  hermes-engine: b2669ce35fc4ac14f523b307aff8896799829fe2
   leveldb-library: e74c27d8fbd22854db7cb467968a0b8aa1db7126
   libevent: 4049cae6c81cdb3654a443be001fb9bdceff7913
   nanopb: d4d75c12cd1316f4a64e3c6963f879ecd4b5e0d5
