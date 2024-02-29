@@ -3,7 +3,7 @@ import { BottomSheetBackdrop, BottomSheetModal } from '@gorhom/bottom-sheet';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRef, useState } from 'react';
 import { Platform, Pressable, StyleSheet } from 'react-native';
-import { initialWindowMetrics, useSafeAreaInsets } from 'react-native-safe-area-context';
+import { initialWindowMetrics } from 'react-native-safe-area-context';
 
 import { AddDateForm } from '../add-date-form';
 
@@ -13,7 +13,6 @@ import { moderateScale, verticalScale } from '@/utils/metrics';
 
 export const AddButton = () => {
   const { theme } = useTheme();
-  const insets = useSafeAreaInsets();
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
   const [snapPoint, setSnapPoint] = useState('60%');
 
@@ -23,11 +22,6 @@ export const AddButton = () => {
   const handleExpand = () => setSnapPoint('85%');
   const handleDecrease = () => setSnapPoint('60%');
 
-  const ANDROID_bottomSpace =
-    (initialWindowMetrics?.insets.bottom || 0) > 0
-      ? initialWindowMetrics?.insets.bottom || 0
-      : insets.bottom;
-
   return (
     <LinearGradient
       colors={
@@ -35,11 +29,7 @@ export const AddButton = () => {
           ? ['rgba(255,255,255,0.1)', 'rgba(255, 255, 255, 1)']
           : ['rgba(20,20,20,0.1)', 'rgba(20, 20, 20, 1)']
       }
-      style={
-        Platform.OS === 'android'
-          ? [styles.wrapper_android, { paddingBottom: ANDROID_bottomSpace + verticalScale(20) }]
-          : styles.wrapper_ios
-      }>
+      style={Platform.OS === 'android' ? styles.wrapper_android : styles.wrapper_ios}>
       <Pressable onPress={handleAddPress}>
         {({ pressed }) => (
           <LinearGradient
@@ -63,7 +53,13 @@ export const AddButton = () => {
         }}
         ref={bottomSheetModalRef}
         index={1}
-        backdropComponent={(props) => <BottomSheetBackdrop {...props} appearsOnIndex={0} />}
+        backdropComponent={(props) => (
+          <BottomSheetBackdrop
+            {...props}
+            appearsOnIndex={1}
+            style={[props.style, { backgroundColor: 'transparent' }]}
+          />
+        )}
         enablePanDownToClose
         backgroundStyle={{
           backgroundColor: Colors[theme].sheet_background,
@@ -85,7 +81,6 @@ const styles = StyleSheet.create({
     position: 'absolute',
     width: `${100}%`,
     bottom: 0,
-    paddingBottom: (initialWindowMetrics?.insets.bottom || 0) + verticalScale(20),
     alignItems: 'center',
     backgroundColor: 'transparent',
   },
@@ -104,10 +99,8 @@ const styles = StyleSheet.create({
     height: moderateScale(55),
     borderRadius: 999,
     alignSelf: 'center',
-    position: 'absolute',
-    marginTop: -10,
+    marginBottom: verticalScale(20),
     zIndex: 2,
-    flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
   },
