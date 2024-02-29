@@ -283,11 +283,15 @@ export const AddDateForm = ({
   }, [isBirthdayPickerVisible]);
 
   useEffect(() => {
-    const showSubscription = Keyboard.addListener('keyboardWillShow', () => {
+    const platform = Platform.OS;
+    const keyboarShowEvent = platform === 'android' ? 'keyboardDidShow' : 'keyboardWillShow';
+    const keyboardHideEvent = platform === 'android' ? 'keyboardDidHide' : 'keyboardWillHide';
+
+    const showSubscription = Keyboard.addListener(keyboarShowEvent, () => {
       onContentExpand();
       setSaveButtonVisible(false);
     });
-    const hideSubscription = Keyboard.addListener('keyboardWillHide', () => {
+    const hideSubscription = Keyboard.addListener(keyboardHideEvent, () => {
       if (!isBirthdayPickerVisible) onContentDecrease();
       setSaveButtonVisible(true);
     });
@@ -297,6 +301,8 @@ export const AddDateForm = ({
       hideSubscription.remove();
     };
   }, [isBirthdayPickerVisible]);
+
+  console.log(isSaveButtonVisible);
 
   return (
     <FormProvider {...methods}>
