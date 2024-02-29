@@ -1,5 +1,5 @@
 import { Feather } from '@expo/vector-icons';
-import { BottomSheetModal } from '@gorhom/bottom-sheet';
+import { BottomSheetBackdrop, BottomSheetModal } from '@gorhom/bottom-sheet';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRef, useState } from 'react';
 import { Platform, Pressable, StyleSheet } from 'react-native';
@@ -63,7 +63,9 @@ export const AddButton = () => {
         }}
         ref={bottomSheetModalRef}
         index={1}
-        enablePanDownToClose={false}
+        backdropComponent={(props) => <BottomSheetBackdrop {...props} appearsOnIndex={0} />}
+        enablePanDownToClose
+        onChange={console.log}
         backgroundStyle={{
           backgroundColor: Colors[theme].sheet_background,
         }}
