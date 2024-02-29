@@ -65,7 +65,6 @@ export const AddButton = () => {
         index={1}
         backdropComponent={(props) => <BottomSheetBackdrop {...props} appearsOnIndex={0} />}
         enablePanDownToClose
-        onChange={console.log}
         backgroundStyle={{
           backgroundColor: Colors[theme].sheet_background,
         }}
