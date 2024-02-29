@@ -22,12 +22,13 @@ import { SaveButton } from './save-btn';
 import { months } from '../date-picker/months';
 import { Text } from '../text';
 
-import Colors, { darkgrey, grey, lighter, red } from '@/constants/Colors';
+import Colors, { darker, darkgrey, grey, grey3, grey4, lighter, red } from '@/constants/Colors';
 import { usePerson } from '@/hooks/use-person';
 import { useTheme } from '@/hooks/use-theme';
 import { useUser } from '@/hooks/use-user';
 import { addPerson, updatePerson } from '@/lib/firebase';
 import { makePerson } from '@/types/person';
+import { horizontalScale } from '@/utils/metrics';
 
 type FormData = {
   name: string;
@@ -252,6 +253,32 @@ export const AddDateForm = ({
         options: ['2 dias', '7 dias', '15 dias', 'Cancelar'],
         message: 'Deseja ser lembrado com quanto tempo de antecedência?',
         destructiveButtonIndex: 3,
+        showSeparators: true,
+        userInterfaceStyle: theme,
+        separatorStyle: {
+          opacity: 0.1,
+          backgroundColor: theme === 'light' ? darker : lighter,
+        },
+        messageTextStyle: {
+          textAlign: 'center',
+          fontFamily: 'PoppinsRegular',
+          fontSize: 14,
+          maxWidth: horizontalScale(250),
+          color: theme === 'light' ? darker : lighter,
+        },
+        textStyle: {
+          fontFamily: 'PoppinsRegular',
+          textAlign: 'center',
+          width: '100%',
+          color: theme === 'dark' ? grey : darkgrey,
+        },
+        containerStyle: {
+          alignItems: 'center',
+          backgroundColor: theme === 'light' ? lighter : '#313131f4',
+          width: '100%',
+          borderTopRightRadius: 15,
+          borderTopLeftRadius: 15,
+        },
       },
       (index) => {
         switch (index) {
@@ -301,8 +328,6 @@ export const AddDateForm = ({
       hideSubscription.remove();
     };
   }, [isBirthdayPickerVisible]);
-
-  console.log(isSaveButtonVisible);
 
   return (
     <FormProvider {...methods}>
@@ -484,7 +509,6 @@ export const styles = StyleSheet.create({
     flex: 1,
   },
   container: {
-    // flex: 1,
     marginBottom: 15,
   },
   option: {
@@ -521,7 +545,6 @@ export const styles = StyleSheet.create({
   close: {
     height: 30,
     width: 30,
-    backgroundColor: 'red',
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 99,

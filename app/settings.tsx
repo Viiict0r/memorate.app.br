@@ -7,7 +7,7 @@ import { initialWindowMetrics } from 'react-native-safe-area-context';
 import { TextSemiBold } from '@/components/styled-text';
 import { Text } from '@/components/text';
 import { View } from '@/components/themed';
-import { darker, darkgrey, grey, grey4, lighter, lightgrey, orange } from '@/constants/Colors';
+import { darker, darkgrey, grey, grey4, lighter, lightgrey, orange, red } from '@/constants/Colors';
 import { useTheme } from '@/hooks/use-theme';
 import { SettingsLayout } from '@/layouts/settings-layout';
 import { horizontalScale, moderateScale, verticalScale } from '@/utils/metrics';
@@ -21,7 +21,33 @@ export default function SettingsScreen() {
       {
         options: ['Claro', 'Escuro', 'Cancelar'],
         message: 'Alterar tema',
-        cancelButtonIndex: 2,
+        destructiveButtonIndex: 2,
+        showSeparators: true,
+        userInterfaceStyle: theme,
+        separatorStyle: {
+          opacity: 0.1,
+          backgroundColor: theme === 'light' ? darker : lighter,
+        },
+        messageTextStyle: {
+          textAlign: 'center',
+          fontFamily: 'PoppinsRegular',
+          fontSize: 14,
+          maxWidth: horizontalScale(250),
+          color: theme === 'light' ? darker : lighter,
+        },
+        textStyle: {
+          fontFamily: 'PoppinsRegular',
+          textAlign: 'center',
+          width: '100%',
+          color: theme === 'dark' ? grey : darkgrey,
+        },
+        containerStyle: {
+          alignItems: 'center',
+          backgroundColor: theme === 'light' ? lighter : '#313131f4',
+          width: '100%',
+          borderTopRightRadius: 15,
+          borderTopLeftRadius: 15,
+        },
       },
       (index) => {
         switch (index) {
