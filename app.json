@@ -19,7 +19,7 @@
       "supportsTablet": true,
       "googleServicesFile": "./GoogleService-Info.plist",
       "bundleIdentifier": "com.viensoft.memorate.app",
-      "buildNumber": "4"
+      "buildNumber": "5"
     },
     "android": {
       "googleServicesFile": "./google-services.json",
@@ -28,7 +28,7 @@
         "backgroundColor": "#ffffff"
       },
       "package": "com.viensoft.memorate.app",
-      "versionCode": 2
+      "versionCode": 3
     },
     "web": {
       "bundler": "metro",
