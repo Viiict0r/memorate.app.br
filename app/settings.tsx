@@ -51,7 +51,7 @@ export default function SettingsScreen() {
 
         <View style={styles.options}>
           {/* Options */}
-          <TouchableOpacity activeOpacity={0.6} style={styles.option}>
+          <TouchableOpacity disabled activeOpacity={0.6} style={[styles.option, { opacity: 0.5 }]}>
             <View style={[styles.option__icon, { backgroundColor: orange }]}>
               <Octicons name="star" size={moderateScale(15)} color={lighter} />
             </View>

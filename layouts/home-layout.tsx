@@ -34,9 +34,13 @@ const Header = () => {
             gap: 10,
             alignItems: 'center',
           }}>
-          <Pressable>
+          <Pressable disabled>
             {({ pressed }) => (
-              <View style={[{ opacity: pressed ? 0.6 : 1 }, styles.header__premium_btn]}>
+              <View
+                style={[
+                  { opacity: pressed ? 0.6 : 0.5 /** Temporary disabled */ },
+                  styles.header__premium_btn,
+                ]}>
                 <MaskedView
                   maskElement={
                     <View style={styles.header__mask_view}>

@@ -3,7 +3,7 @@ import { BottomSheetModal } from '@gorhom/bottom-sheet';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRef, useState } from 'react';
 import { Platform, Pressable, StyleSheet } from 'react-native';
-import { initialWindowMetrics } from 'react-native-safe-area-context';
+import { initialWindowMetrics, useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { AddDateForm } from '../add-date-form';
 
@@ -13,6 +13,7 @@ import { moderateScale, verticalScale } from '@/utils/metrics';
 
 export const AddButton = () => {
   const { theme } = useTheme();
+  const insets = useSafeAreaInsets();
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
   const [snapPoint, setSnapPoint] = useState('60%');
 
@@ -22,6 +23,11 @@ export const AddButton = () => {
   const handleExpand = () => setSnapPoint('85%');
   const handleDecrease = () => setSnapPoint('60%');
 
+  const ANDROID_bottomSpace =
+    (initialWindowMetrics?.insets.bottom || 0) > 0
+      ? initialWindowMetrics?.insets.bottom || 0
+      : insets.bottom;
+
   return (
     <LinearGradient
       colors={
@@ -29,7 +35,11 @@ export const AddButton = () => {
           ? ['rgba(255,255,255,0.1)', 'rgba(255, 255, 255, 1)']
           : ['rgba(20,20,20,0.1)', 'rgba(20, 20, 20, 1)']
       }
-      style={Platform.OS === 'android' ? styles.wrapper_android : styles.wrapper_ios}>
+      style={
+        Platform.OS === 'android'
+          ? [styles.wrapper_android, { paddingBottom: ANDROID_bottomSpace + verticalScale(20) }]
+          : styles.wrapper_ios
+      }>
       <Pressable onPress={handleAddPress}>
         {({ pressed }) => (
           <LinearGradient
