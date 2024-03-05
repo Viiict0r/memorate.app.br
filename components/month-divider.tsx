@@ -6,6 +6,7 @@ import { View } from 'react-native';
 import { Text } from './text';
 
 import Colors from '@/constants/Colors';
+import { verticalScale } from '@/utils/metrics';
 
 type Props = {
   label: string;
@@ -14,7 +15,7 @@ type Props = {
 
 const LATERAL_PADDING = 27;
 
-export const MonthDivider = ({ label, topMargin = 12 }: Props) => {
+export const MonthDivider = ({ label, topMargin = verticalScale(10) }: Props) => {
   return (
     <View
       style={{
@@ -23,7 +24,6 @@ export const MonthDivider = ({ label, topMargin = 12 }: Props) => {
         alignItems: 'center',
         marginTop: topMargin,
         paddingHorizontal: LATERAL_PADDING,
-        marginBottom: 9,
       }}>
       <LinearGradient colors={Colors.dark.background_gradient} style={{ height: 1, flex: 1 }} />
       <MaskedView maskElement={<Text variant="sub1">{label}</Text>}>

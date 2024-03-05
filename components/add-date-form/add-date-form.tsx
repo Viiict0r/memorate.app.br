@@ -22,7 +22,7 @@ import { SaveButton } from './save-btn';
 import { months } from '../date-picker/months';
 import { Text } from '../text';
 
-import Colors, { darker, darkgrey, grey, grey3, grey4, lighter, red } from '@/constants/Colors';
+import Colors, { darker, darkgrey, grey, lighter, red } from '@/constants/Colors';
 import { usePerson } from '@/hooks/use-person';
 import { useTheme } from '@/hooks/use-theme';
 import { useUser } from '@/hooks/use-user';

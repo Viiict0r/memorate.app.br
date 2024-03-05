@@ -77,7 +77,7 @@ export const OthersCard = ({ data, highlighted }: Props) => {
   const renderActions = (progress: Animated.AnimatedInterpolation<number>) => {
     const trans = progress.interpolate({
       inputRange: [0, 1],
-      outputRange: [72 * 2, 0],
+      outputRange: [horizontalScale(72) * 2, 0],
       extrapolate: 'clamp',
     });
 
@@ -199,7 +199,7 @@ const styles = StyleSheet.create({
   date: {
     flexDirection: 'column',
     alignItems: 'flex-start',
-    width: horizontalScale(30),
+    width: moderateScale(30, 0.4),
     marginRight: horizontalScale(3) * -1,
   },
   name: {
