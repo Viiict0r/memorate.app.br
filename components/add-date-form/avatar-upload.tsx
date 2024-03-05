@@ -8,6 +8,7 @@ import { Text } from '../text';
 
 import useImagePicker from '@/hooks/use-image-picker';
 import { api } from '@/lib/axios';
+import { moderateScale } from '@/utils/metrics';
 
 type Props = {
   onUploadStart: () => void;
@@ -108,14 +109,15 @@ const styles = StyleSheet.create({
     position: 'relative',
   },
   avatar: {
-    width: 48,
-    height: 48,
+    width: moderateScale(48),
+    height: moderateScale(48),
     borderRadius: 99,
+    objectFit: 'cover',
   },
   loading: {
     position: 'absolute',
-    width: 48,
-    height: 48,
+    width: moderateScale(48),
+    height: moderateScale(48),
     borderRadius: 99,
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
     justifyContent: 'center',

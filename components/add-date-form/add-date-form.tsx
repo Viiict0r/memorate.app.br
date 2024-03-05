@@ -28,7 +28,7 @@ import { useTheme } from '@/hooks/use-theme';
 import { useUser } from '@/hooks/use-user';
 import { addPerson, updatePerson } from '@/lib/firebase';
 import { makePerson } from '@/types/person';
-import { horizontalScale } from '@/utils/metrics';
+import { horizontalScale, moderateScale, verticalScale } from '@/utils/metrics';
 
 type FormData = {
   name: string;
@@ -515,7 +515,7 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     gap: 10,
     alignItems: 'center',
-    paddingVertical: 12,
+    paddingVertical: verticalScale(12),
   },
   option__icon: {
     width: 16,
@@ -538,9 +538,9 @@ export const styles = StyleSheet.create({
   input: {
     backgroundColor: 'transparent',
     borderBottomWidth: 1,
-    paddingVertical: 8,
+    paddingVertical: verticalScale(8),
     fontFamily: 'PoppinsRegular',
-    fontSize: 12,
+    fontSize: moderateScale(12),
   },
   close: {
     height: 30,

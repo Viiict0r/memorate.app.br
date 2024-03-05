@@ -14,13 +14,13 @@ import { moderateScale, verticalScale } from '@/utils/metrics';
 export const AddButton = () => {
   const { theme } = useTheme();
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
-  const [snapPoint, setSnapPoint] = useState('60%');
+  const [snapPoint, setSnapPoint] = useState('65%');
 
   const handleAddPress = () => bottomSheetModalRef.current?.present();
   const handleSheetClose = () => bottomSheetModalRef.current?.close();
 
   const handleExpand = () => setSnapPoint('85%');
-  const handleDecrease = () => setSnapPoint('60%');
+  const handleDecrease = () => setSnapPoint('65%');
 
   return (
     <LinearGradient

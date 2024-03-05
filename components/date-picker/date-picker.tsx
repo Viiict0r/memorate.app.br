@@ -8,6 +8,7 @@ import { years } from './years';
 
 import Colors from '@/constants/Colors';
 import { useTheme } from '@/hooks/use-theme';
+import { moderateScale, verticalScale } from '@/utils/metrics';
 
 const days = Array.from(Array(31).keys()).map((day) => day + 1);
 
@@ -50,12 +51,16 @@ export const DatePicker = ({ showYear }: Props) => {
         render={({ field: { onChange, value } }) => (
           <Picker
             itemStyle={{
-              fontSize: 14,
+              fontSize: moderateScale(14),
               fontFamily: 'PoppinsRegular',
-              height: 150,
+              height: verticalScale(150),
             }}
             textColor={Colors[theme].text}
-            style={{ width: showYear ? '30%' : '40%', backgroundColor: 'transparent', height: 150 }}
+            style={{
+              width: showYear ? '30%' : '40%',
+              backgroundColor: 'transparent',
+              height: verticalScale(150),
+            }}
             selectedValue={value}
             pickerData={days}
             onValueChange={onChange}
@@ -72,12 +77,16 @@ export const DatePicker = ({ showYear }: Props) => {
         render={({ field: { onChange, value } }) => (
           <Picker
             itemStyle={{
-              fontSize: 14,
+              fontSize: moderateScale(14),
               fontFamily: 'PoppinsRegular',
-              height: 150,
+              height: verticalScale(150),
             }}
             textColor={Colors[theme].text}
-            style={{ width: showYear ? '40%' : '60%', backgroundColor: 'transparent', height: 150 }}
+            style={{
+              width: showYear ? '40%' : '60%',
+              backgroundColor: 'transparent',
+              height: verticalScale(150),
+            }}
             selectedValue={value}
             pickerData={months}
             onValueChange={onChange}
@@ -97,12 +106,12 @@ export const DatePicker = ({ showYear }: Props) => {
               <Picker
                 ref={yearRef}
                 itemStyle={{
-                  fontSize: 14,
+                  fontSize: moderateScale(14),
                   fontFamily: 'PoppinsRegular',
-                  height: 150,
+                  height: verticalScale(150),
                 }}
                 textColor={Colors[theme].text}
-                style={{ width: '30%', backgroundColor: 'transparent', height: 150 }}
+                style={{ width: '30%', backgroundColor: 'transparent', height: verticalScale(150) }}
                 pickerData={years}
                 selectedValue={value}
                 onValueChange={onChange}

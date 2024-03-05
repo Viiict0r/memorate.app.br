@@ -3,6 +3,8 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 
 import { Text } from '../text';
 
+import { horizontalScale } from '@/utils/metrics';
+
 type Props = {
   onPress: () => void;
   disabled?: boolean;
@@ -22,6 +24,7 @@ export const SaveButton = ({ onPress, disabled = false, loading = false }: Props
       borderRadius: 99,
       justifyContent: 'center',
       alignItems: 'center',
+      marginBottom: horizontalScale(10),
     }}>
     <Text variant="button1" lightColor="#fff" darkColor="#fff">
       {!loading && 'Salvar'}
